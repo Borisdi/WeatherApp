@@ -1,0 +1,33 @@
+﻿@model WeatherApiClass.ResponseWeather;
+<table>
+    <tr>
+        <th>Current Weather Conditions
+        <th>
+    <tr>
+    <tr>
+        <td>Sofia:</td>
+        <td>
+    <tr>
+    <tr>
+        <td>
+            @Model.weather
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Temperature: @Model.main.temp  °C
+        </td>
+    </tr>
+    <td>Wind: @Model.wind.speed m/s Direction: @Model.wind.deg </td>
+    </tr>
+    <tr>
+        <td>
+            Humidity: @Model.main.humidity %
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Pressure: @Model.main.pressure hPa
+        </td>
+    </tr>
+</table>
