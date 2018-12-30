@@ -2,14 +2,25 @@
 <table>
     <tr>
         <th>Current Weather Conditions
-        <th>
-    <tr>
+        </th>
+    </tr>
     <tr>
         <td>Sofia:</td>
     <tr>
     <tr>
         <td>
-            @Model.weather
+            @Model.weather[0].description
+            @{  String image = null;
+                if (Model.weather[0].description == "light snow")
+                {
+                    image = "~/images/Symbols/13d.png";
+                }
+                if (Model.weather[0].description == "overcast cloud")
+                {
+                    image = "~/images/Symbols/04d.png";
+                } 
+             }
+            <img src=@Url.Content(image) />
         </td>
     </tr>
     <tr>
@@ -17,6 +28,7 @@
             Temperature: @Model.main.temp  °C
         </td>
     </tr>
+    <tr>
     <td>Wind: @Model.wind.speed m/s Direction: @Model.wind.deg </td>
     </tr>
     <tr>

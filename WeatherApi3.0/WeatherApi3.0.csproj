@@ -5,6 +5,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\images\Symbols\01d.png" />
+    <Content Remove="wwwroot\images\Symbols\01n.png" />
+    <Content Remove="wwwroot\images\Symbols\02d.png" />
+    <Content Remove="wwwroot\images\Symbols\02n.png" />
+    <Content Remove="wwwroot\images\Symbols\03d.png" />
+    <Content Remove="wwwroot\images\Symbols\04d.png" />
+    <Content Remove="wwwroot\images\Symbols\09d.png" />
+    <Content Remove="wwwroot\images\Symbols\10d.png" />
+    <Content Remove="wwwroot\images\Symbols\10n.png" />
+    <Content Remove="wwwroot\images\Symbols\11d.png" />
+    <Content Remove="wwwroot\images\Symbols\13d.png" />
+    <Content Remove="wwwroot\images\Symbols\50d.png" />
+    <Content Remove="wwwroot\images\Symbols\index.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
@@ -13,6 +29,22 @@
   <ItemGroup>
     <Folder Include="Views\Home\" />
     <Folder Include="Views\Shared\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\Symbols\01d.png" />
+    <None Include="wwwroot\images\Symbols\01n.png" />
+    <None Include="wwwroot\images\Symbols\02d.png" />
+    <None Include="wwwroot\images\Symbols\02n.png" />
+    <None Include="wwwroot\images\Symbols\03d.png" />
+    <None Include="wwwroot\images\Symbols\04d.png" />
+    <None Include="wwwroot\images\Symbols\09d.png" />
+    <None Include="wwwroot\images\Symbols\10d.png" />
+    <None Include="wwwroot\images\Symbols\10n.png" />
+    <None Include="wwwroot\images\Symbols\11d.png" />
+    <None Include="wwwroot\images\Symbols\13d.png" />
+    <None Include="wwwroot\images\Symbols\50d.png" />
+    <None Include="wwwroot\images\Symbols\index.jpg" />
   </ItemGroup>
 
 </Project>
