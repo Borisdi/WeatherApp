@@ -1,21 +1,22 @@
 ﻿@using WeatherApiClass;
 @model WeatherApiClass.ResponseWeatherList;
-<tr>
-        <th> <b>Current Weather Conditions </b>
-</th>
-    </tr>
+<div id="currentweatherconditions">
+    <b>Current Weather Conditions </b>
+</div>
 @for (int i = 0; i < Model.cnt; i++)
 {
     ResponseWeather response = Model.list[i];
-<body>
-    <head>
-        <link rel="stylesheet" type="text/css" href="~/css/site.css">
-    </head>
-    
-    <div id="name">
-        @response.name
-    </div>
-       <div id="weatherdescription">
+    <body>
+        <head>
+            <link rel="stylesheet" type="text/css" href="~/css/site.css">
+            <link rel="stylesheet" type="text/css" href="~/css/weather-icons.css">
+            <link rel="stylesheet" type="text/css" href="~/css/weather-icons-wind.css">
+        </head>
+
+        <div id="name">
+            @response.name
+        </div>
+        <div id="weatherdescription">
             @response.weather[0].description
             @{ String image = null;
                 if (response.weather[0].description == "clear sky")
@@ -39,17 +40,20 @@
                 }
 
                 // Всички събития от група 3xx - ръмеж и дъжд
-                if (response.weather[0].description == "shower rain" || response.weather[0].description == "light intensity drizzle" || response.weather[0].description == "drizzle" || response.weather[0].description == "heavvy intensity drizzle" || response.weather[0].description == "shower rain" || response.weather[0].description == "light intensity drizzle rain" || response.weather[0].description == "drizzle rain" || response.weather[0].description == "heavy intensity drizzle rain" || response.weather[0].description == "shower rain and drizzle" || response.weather[0].description == "heavy shower rain and drizzle" || response.weather[0].description == "shower drizzle")
+                string[] showers = new[] { "shower rain", "light intensity drizzle", "drizzle", "heavy intensity drizzle", "shower rain", "light intensity drizzle rain", "drizzle rain", "heavy intensity drizzle rain", "shower rain and drizzle", "heavy shower rain and drizzle", "shower drizzle" };
+                if (showers.Contains(response.weather[0].description))
                 {
                     image = "~/images/Symbols/09d.png";
                 }
+
                 // Всички събития от група 5xx - дъждове с различна интензивност
                 if (response.weather[0].description == "rain" || response.weather[0].description == "light rain" || response.weather[0].description == "moderate rain" || response.weather[0].description == "heavy intensity rain" || response.weather[0].description == "very heavy rain" || response.weather[0].description == "extreme rain" || response.weather[0].description == "light shower rain" || response.weather[0].description == "shower rain" || response.weather[0].description == "heavy intensity shower rain" || response.weather[0].description == "ragged shower rain")
                 {
                     image = "~/images/Symbols/10d.png";
                 }
                 // Всички събития от група 2xx - гръмотевична буря
-                if (response.weather[0].description == "thunderstorm" || response.weather[0].description == "thunderstorm with light rain" || response.weather[0].description == "thunderstorm with heavy rain" || response.weather[0].description == "light thunderstorm" || response.weather[0].description == "thunderstorm" || response.weather[0].description == "heavy thunderstorm" || response.weather[0].description == "ragged thunderstorm" || response.weather[0].description == "thunderstorm with light drizzle" || response.weather[0].description == "thunderstorm with drizzle" || response.weather[0].description == "thunderstorm with heavy drizzle")
+                if (response.weather[0].description == "thunderstorm" || response.weather[0].description == "thunderstorm with light rain" || response.weather[0].description == "thunderstorm with heavy rain" || response.weather[0].description ==
+                    "light thunderstorm" || response.weather[0].description == "thunderstorm" || response.weather[0].description == "heavy thunderstorm" || response.weather[0].description == "ragged thunderstorm" || response.weather[0].description == "thunderstorm with light drizzle" || response.weather[0].description == "thunderstorm with drizzle" || response.weather[0].description == "thunderstorm with heavy drizzle")
                 {
                     image = "~/images/Symbols/11d.png";
                 }
@@ -65,11 +69,11 @@
                 }
             }
             <img src=@Url.Content(image) />
-    </div>
-    <div id="temperature">
+        </div>
+        <div id="temperature">
             Temperature: @Math.Round(response.main.temp)  °C
-    </div>
-    <div id="wind">
+        </div>
+        <div id="wind">
             Wind: @response.wind.speed m/s
             @{
                 String directiondescription = null;
@@ -139,14 +143,14 @@
                 }
             }
             Direction: @directiondescription
-    </div>
-    <div id="humidity">
+        </div>
+        <div id="humidity">
             Humidity: @response.main.humidity %
-    </div>
-    <div id="pressure">
+        </div>
+        <div id="pressure">
             Pressure: @Math.Round(response.main.pressure) hPa
-    </div>
-    <div id="sunrise">
+        </div>
+        <div id="sunrise">
             Sunrise: @{
                 // Converting unix date and time to human date and time and show only the time of sunrise
                 String timesunrise;
@@ -155,8 +159,9 @@
                 timesunrise = dtDateTimesunrise.ToShortTimeString();
             }
             @timesunrise
-    </div>
-    <div id="sunset">
+            <i class="wi wi-night-sleet"></i>
+        </div>
+        <div id="sunset">
             Sunset: @{
                 // Converting unix date and time to human date and time and show only the time of sunset
                 String timesunset;
@@ -165,6 +170,6 @@
                 timesunset = dtDateTimesunset.ToShortTimeString();
             }
             @timesunset
-    </div>
-</body>
-                }
+        </div>
+    </body>
+}
