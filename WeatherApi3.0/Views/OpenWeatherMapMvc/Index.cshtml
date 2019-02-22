@@ -8,7 +8,7 @@
     ResponseWeather response = Model.list[i];
 <body>
     <head>
-        <link rel="stylesheet" type="text/css" href="~/css/site.css">
+        <link rel="stylesheet" type="text/css" href="~/css/site.css?version=3">
         <link rel="stylesheet" type="text/css" href="~/css/weather-icons.css">
         <link rel="stylesheet" type="text/css" href="~/css/weather-icons-wind.css">
         <style>
@@ -27,6 +27,7 @@
         <b> @response.name </b>
 </div>
     <div id="weatherdescription">
+        <table>
         @response.weather[0].description
         @{ String image = null;
             if (response.weather[0].description == "clear sky")
@@ -197,6 +198,5 @@
         @timesunset
 
     </div>
-    
 </body>
 }

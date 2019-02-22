@@ -36,6 +36,29 @@ namespace WeatherApi3._0.Controllers
             ResponseWeatherList rootObject = JsonConvert.DeserializeObject<ResponseWeatherList>(apiResponse);
             return View(rootObject);
         }
+        /* http://api.openweathermap.org/data/2.5/forecast?q=Sofia&APPID=6d85a7afd458036f67cfcce6e5c8815f&units=metric */
+
+       /* [HttpGet]
+        public IActionResult Index()
+        {
+            string APIkey = "6d85a7afd458036f67cfcce6e5c8815f";
+            string LocationSofia = "Sofia";
+            string LocationPlovdiv = "Plovdiv";
+            string LocationBurgas = "Burgas";
+            int LocationSofiaID = 727011;
+            int LocationPlovdivID = 728193;
+            int LocationBurgasID = 732771;
+            HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/forecast?q=" + LocationSofiaID + "," + "&APPID=" + APIkey + "&units=metric") as HttpWebRequest;
+            string apiResponseforecast = "";
+            using (HttpWebResponse response = URL.GetResponse() as HttpWebResponse)
+            {
+                StreamReader reader = new StreamReader(response.GetResponseStream());
+                apiResponseforecast = reader.ReadToEnd();
+            }
+
+            ResponseWeatherList rootObject = JsonConvert.DeserializeObject<ResponseWeatherList>(apiResponseforecast);
+            return View(rootObject);
+        }*/
 
         [HttpGet]
         public string Error()
