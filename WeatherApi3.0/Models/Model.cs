@@ -8,5 +8,7 @@ namespace WeatherApiModel
     public ResponseWeatherList CurrentWeatherConditions { get; set; }
 
     public ResponseForecast Forecast { get; set; }
+
+    public ResponseUVIndex UVIndexForecast { get; set; }
     }
 }

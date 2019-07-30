@@ -61,6 +61,23 @@ namespace WeatherApi3._0.Controllers
             return rootObject;
         }
 
+        //private ResponseUVIndex GetUVIndexForecast()
+        //{
+        //    string APIkey = "6d85a7afd458036f67cfcce6e5c8815f";
+        //    double SofiaCoordLat = 42.69;
+        //    double SofiaCoordLon = 23.32;
+        //    HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/uvi/forecast?" + "&APPID=" + APIkey + SofiaCoordLat + SofiaCoordLon) as HttpWebRequest;
+        //    string apiResponseUVIndexForecast = "";
+        //    using (HttpWebResponse response = URL.GetResponse() as HttpWebResponse)
+        //    {
+        //        StreamReader reader = new StreamReader(response.GetResponseStream());
+        //        apiResponseUVIndexForecast = reader.ReadToEnd();
+        //    }
+
+        //    ResponseUVIndex rootObject = JsonConvert.DeserializeObject<ResponseUVIndex>(apiResponseUVIndexForecast);
+        //    return rootObject;
+        //}
+
         [HttpGet]
         public string Error()
         {

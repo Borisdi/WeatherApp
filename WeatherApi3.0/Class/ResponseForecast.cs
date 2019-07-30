@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,7 +39,8 @@ namespace WeatherApiClass
 
     public class RainForecast
     {
-        public double __invalid_name__3h { get; set; }
+        [JsonProperty(PropertyName = "3h")]
+        public double Rain3h { get; set; }
     }
 
     public class SysForecast
