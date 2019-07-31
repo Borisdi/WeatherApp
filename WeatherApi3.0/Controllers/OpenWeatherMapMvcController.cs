@@ -35,7 +35,7 @@ namespace WeatherApi3._0.Controllers
             }
 
             ResponseWeatherList rootObject = JsonConvert.DeserializeObject<ResponseWeatherList>(apiResponse);
-            OpenWeatherMap Model = new OpenWeatherMap() {CurrentWeatherConditions = rootObject, Forecast = GetForecast()};
+            OpenWeatherMap Model = new OpenWeatherMap() {CurrentWeatherConditions = rootObject, Forecast = GetForecast()}; //, UVIndexForecast = GetUVIndexForecast()
             return View(Model);
         }
         /* http://api.openweathermap.org/data/2.5/forecast?q=Sofia&APPID=6d85a7afd458036f67cfcce6e5c8815f&units=metric */
@@ -66,7 +66,7 @@ namespace WeatherApi3._0.Controllers
         //    string APIkey = "6d85a7afd458036f67cfcce6e5c8815f";
         //    double SofiaCoordLat = 42.69;
         //    double SofiaCoordLon = 23.32;
-        //    HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/uvi/forecast?" + "&APPID=" + APIkey + SofiaCoordLat + SofiaCoordLon) as HttpWebRequest;
+        //    HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/uvi/forecast?" + "APPID=" + APIkey + "&lat=" + SofiaCoordLat + "&lon=" + SofiaCoordLon) as HttpWebRequest;
         //    string apiResponseUVIndexForecast = "";
         //    using (HttpWebResponse response = URL.GetResponse() as HttpWebResponse)
         //    {
@@ -74,7 +74,7 @@ namespace WeatherApi3._0.Controllers
         //        apiResponseUVIndexForecast = reader.ReadToEnd();
         //    }
 
-        //    ResponseUVIndex rootObject = JsonConvert.DeserializeObject<ResponseUVIndex>(apiResponseUVIndexForecast);
+        //    List<ResponseUVIndex> rootObject = JsonConvert.DeserializeObject<List<ResponseUVIndex>>(apiResponseUVIndexForecast);
         //    return rootObject;
         //}
 

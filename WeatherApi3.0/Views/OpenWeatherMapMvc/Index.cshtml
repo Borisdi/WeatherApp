@@ -4,6 +4,8 @@
     <b> Current Weather Conditions </b>
 </div>
 <body>
+    <a href='http://en.sat24.com/en' target='sat24'><image src='https://api.sat24.com/animated/EU/infraPolair/1/GTB%20Standard%20Time/88934' width=300&height =300&zoom =0.50&continent =eu' width=300 height=300></a>
+    <a href='http://en.sat24.com/en' target='sat24'><image src='https://api.sat24.com/crop?type=infraPolair&lat=42.6977&lon=23.3219&width=300&height=300&zoom=1.00&continent=eu' width=300 height=300></a>   
     @for (int i = 0; i < Model.CurrentWeatherConditions.cnt; i++)
     {
         ResponseWeather response = Model.CurrentWeatherConditions.list[i];
@@ -20,6 +22,10 @@
 
                 #sunset {
                     padding-bottom: 30px;
+                }
+
+                #forecast {
+                    padding-top: 50px;
                 }
             </style>
         </head>
@@ -264,106 +270,108 @@
                         }
                         <img src=@Url.Content(image) />
                 </div>
-                <div id="tempForecast">Temperature: @Math.Round(ForecastHourly.main.temp) °C</div>
-                <div id="cloudsForecast">Clouds: @ForecastHourly.clouds.all %</div>
-                // <div id="rainForecast">Rain: @ForecastHourly.rain.Rain3h mm</div>
-                <div id="winddirectionForecast">
-                    @{
-                        String directiondescription = null;
-                        if (ForecastHourly.wind.deg >= 0 && ForecastHourly.wind.deg < 11 || ForecastHourly.wind.deg <= 0 && ForecastHourly.wind.deg > 349)
-                        {
-                            directiondescription = "N";
-                            <i class="wi wi-wind wi-towards-s"></i>
+                <table id="forecast" position: relative;>
+                    <div id="tempForecast">Temperature: @Math.Round(ForecastHourly.main.temp) °C</div>
+                    <div id="cloudsForecast">Clouds: @ForecastHourly.clouds.all %</div>
+                    @*<div id="rainForecast">Rain: @ForecastHourly.rain.Rain3h mm</div>*@
+                    <div id="winddirectionForecast">
+                        @{
+                            String directiondescription = null;
+                            if (ForecastHourly.wind.deg >= 0 && ForecastHourly.wind.deg < 11 || ForecastHourly.wind.deg <= 0 && ForecastHourly.wind.deg > 349)
+                            {
+                                directiondescription = "N";
+                                <i class="wi wi-wind wi-towards-s"></i>
+                            }
+                            if (ForecastHourly.wind.deg >= 11 && ForecastHourly.wind.deg < 34)
+                            {
+                                directiondescription = "NNE";
+                                <i class="wi wi-wind wi-towards-ssw"></i>
+                            }
+                            if (ForecastHourly.wind.deg >= 34 && ForecastHourly.wind.deg < 56)
+                            {
+                                directiondescription = "NE";
+                                <i class="wi wi-wind wi-towards-sw"></i>
+                            }
+                            if (ForecastHourly.wind.deg >= 56 && ForecastHourly.wind.deg < 79)
+                            {
+                                directiondescription = "ENE";
+                                <i class="wi wi-wind wi-towards-wsw"></i>
+                            }
+                            if (ForecastHourly.wind.deg >= 79 && ForecastHourly.wind.deg < 101)
+                            {
+                                directiondescription = "E";
+                                <i class="wi wi-wind wi-towards-w"></i>
+                            }
+                            if (ForecastHourly.wind.deg >= 101 && ForecastHourly.wind.deg < 124)
+                            {
+                                directiondescription = "ESE";
+                                <i class="wi wi-wind wi-towards-ene"></i>
+                            }
+                            if (ForecastHourly.wind.deg >= 124 && ForecastHourly.wind.deg < 146)
+                            {
+                                directiondescription = "SE";
+                                <i class="wi wi-wind wi-towards-nw"></i>
+                            }
+                            if (ForecastHourly.wind.deg >= 146 && ForecastHourly.wind.deg < 169)
+                            {
+                                directiondescription = "SSE";
+                                <i class="wi wi-wind wi-towards-nnw"></i>
+                            }
+                            if (ForecastHourly.wind.deg >= 169 && ForecastHourly.wind.deg < 191)
+                            {
+                                directiondescription = "S";
+                                <i class="wi wi-wind wi-towards-n"></i>
+                            }
+                            if (ForecastHourly.wind.deg >= 191 && ForecastHourly.wind.deg < 214)
+                            {
+                                directiondescription = "SSW";
+                                <i class="wi wi-wind wi-towards-nne"></i>
+                            }
+                            if (ForecastHourly.wind.deg >= 214 && ForecastHourly.wind.deg < 236)
+                            {
+                                directiondescription = "SW";
+                                <i class="wi wi-wind wi-towards-ne"></i>
+                            }
+                            if (ForecastHourly.wind.deg >= 236 && ForecastHourly.wind.deg < 259)
+                            {
+                                directiondescription = "WSW";
+                                <i class="wi wi-wind wi-towards-ene"></i>
+                            }
+                            if (ForecastHourly.wind.deg >= 259 && ForecastHourly.wind.deg < 281)
+                            {
+                                directiondescription = "W";
+                                <i class="wi wi-wind wi-towards-e"></i>
+                            }
+                            if (ForecastHourly.wind.deg >= 281 && ForecastHourly.wind.deg < 304)
+                            {
+                                directiondescription = "WNW";
+                                <i class="wi wi-wind wi-towards-ese"></i>
+                            }
+                            if (ForecastHourly.wind.deg >= 304 && ForecastHourly.wind.deg < 326)
+                            {
+                                directiondescription = "NW";
+                                <i class="wi wi-wind wi-towards-sw"></i>
+                            }
+                            if (ForecastHourly.wind.deg >= 326 && ForecastHourly.wind.deg < 349)
+                            {
+                                directiondescription = "NNW";
+                                <i class="wi wi-wind wi-towards-ssw"></i>
+                            }
                         }
-                        if (ForecastHourly.wind.deg >= 11 && ForecastHourly.wind.deg < 34)
-                        {
-                            directiondescription = "NNE";
-                            <i class="wi wi-wind wi-towards-ssw"></i>
-                        }
-                        if (ForecastHourly.wind.deg >= 34 && ForecastHourly.wind.deg < 56)
-                        {
-                            directiondescription = "NE";
-                            <i class="wi wi-wind wi-towards-sw"></i>
-                        }
-                        if (ForecastHourly.wind.deg >= 56 && ForecastHourly.wind.deg < 79)
-                        {
-                            directiondescription = "ENE";
-                            <i class="wi wi-wind wi-towards-wsw"></i>
-                        }
-                        if (ForecastHourly.wind.deg >= 79 && ForecastHourly.wind.deg < 101)
-                        {
-                            directiondescription = "E";
-                            <i class="wi wi-wind wi-towards-w"></i>
-                        }
-                        if (ForecastHourly.wind.deg >= 101 && ForecastHourly.wind.deg < 124)
-                        {
-                            directiondescription = "ESE";
-                            <i class="wi wi-wind wi-towards-ene"></i>
-                        }
-                        if (ForecastHourly.wind.deg >= 124 && ForecastHourly.wind.deg < 146)
-                        {
-                            directiondescription = "SE";
-                            <i class="wi wi-wind wi-towards-nw"></i>
-                        }
-                        if (ForecastHourly.wind.deg >= 146 && ForecastHourly.wind.deg < 169)
-                        {
-                            directiondescription = "SSE";
-                            <i class="wi wi-wind wi-towards-nnw"></i>
-                        }
-                        if (ForecastHourly.wind.deg >= 169 && ForecastHourly.wind.deg < 191)
-                        {
-                            directiondescription = "S";
-                            <i class="wi wi-wind wi-towards-n"></i>
-                        }
-                        if (ForecastHourly.wind.deg >= 191 && ForecastHourly.wind.deg < 214)
-                        {
-                            directiondescription = "SSW";
-                            <i class="wi wi-wind wi-towards-nne"></i>
-                        }
-                        if (ForecastHourly.wind.deg >= 214 && ForecastHourly.wind.deg < 236)
-                        {
-                            directiondescription = "SW";
-                            <i class="wi wi-wind wi-towards-ne"></i>
-                        }
-                        if (ForecastHourly.wind.deg >= 236 && ForecastHourly.wind.deg < 259)
-                        {
-                            directiondescription = "WSW";
-                            <i class="wi wi-wind wi-towards-ene"></i>
-                        }
-                        if (ForecastHourly.wind.deg >= 259 && ForecastHourly.wind.deg < 281)
-                        {
-                            directiondescription = "W";
-                            <i class="wi wi-wind wi-towards-e"></i>
-                        }
-                        if (ForecastHourly.wind.deg >= 281 && ForecastHourly.wind.deg < 304)
-                        {
-                            directiondescription = "WNW";
-                            <i class="wi wi-wind wi-towards-ese"></i>
-                        }
-                        if (ForecastHourly.wind.deg >= 304 && ForecastHourly.wind.deg < 326)
-                        {
-                            directiondescription = "NW";
-                            <i class="wi wi-wind wi-towards-sw"></i>
-                        }
-                        if (ForecastHourly.wind.deg >= 326 && ForecastHourly.wind.deg < 349)
-                        {
-                            directiondescription = "NNW";
-                            <i class="wi wi-wind wi-towards-ssw"></i>
-                        }
-                    }
-                    Direction: @directiondescription
-                </div>
-                <div id="windspeedForecast">Wind speed: @ForecastHourly.wind.speed m/s</div>
-                <div id="pressureForecast">Pressure: @ForecastHourly.main.pressure hPa</div>
+                        Direction: @directiondescription
+                    </div>
+                    <div id="windspeedForecast">Wind speed: @ForecastHourly.wind.speed m/s</div>
+                    <div id="pressureForecast">Pressure: @ForecastHourly.main.pressure hPa</div>
+                </table>
             }
         }
     }
     @*@{for (int l = 0; l < Model.UVIndexForecast.cnt; l++)
-        {
-            ResponseUVIndex UVforecast = Model.UVIndexForecast;
-            <div id="cityUV"> City: Sofia </div>
-            <div id="dateUV">Date: @UVforecast.date </div>
-            <div id="UVIndex">@UVforecast.value </div>
-        }
-    }*@
+            {
+                ResponseUVIndex UVforecast = Model.UVIndexForecast;
+                <div id="cityUV"> City: Sofia </div>
+                <div id="dateUV">Date: @UVforecast.date </div>
+                <div id="UVIndex">@UVforecast.value </div>
+            }
+        }*@
 </body>

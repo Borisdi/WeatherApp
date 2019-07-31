@@ -39,7 +39,7 @@ namespace WeatherApiClass
 
     public class RainForecast
     {
-        [JsonProperty(PropertyName = "3h")]
+        [JsonProperty("3h")]
         public double Rain3h { get; set; }
     }
 
