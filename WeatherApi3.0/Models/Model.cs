@@ -9,6 +9,6 @@ namespace WeatherApiModel
 
     public ResponseForecast Forecast { get; set; }
 
-    public ResponseUVIndex UVIndexForecast { get; set; }
+    public List<ResponseUVIndex>  UVIndexForecast { get; set; }
     }
 }

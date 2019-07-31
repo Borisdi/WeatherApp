@@ -5,7 +5,7 @@
 </div>
 <body>
     <a href='http://en.sat24.com/en' target='sat24'><image src='https://api.sat24.com/animated/EU/infraPolair/1/GTB%20Standard%20Time/88934' width=300&height =300&zoom =0.50&continent =eu' width=300 height=300></a>
-    <a href='http://en.sat24.com/en' target='sat24'><image src='https://api.sat24.com/crop?type=infraPolair&lat=42.6977&lon=23.3219&width=300&height=300&zoom=1.00&continent=eu' width=300 height=300></a>   
+    <a href='http://en.sat24.com/en' target='sat24'><image src='https://api.sat24.com/crop?type=infraPolair&lat=42.6977&lon=23.3219&width=300&height=300&zoom=1.00&continent=eu' width=300 height=300></a>
     @for (int i = 0; i < Model.CurrentWeatherConditions.cnt; i++)
     {
         ResponseWeather response = Model.CurrentWeatherConditions.list[i];
@@ -366,12 +366,13 @@
             }
         }
     }
-    @*@{for (int l = 0; l < Model.UVIndexForecast.cnt; l++)
-            {
-                ResponseUVIndex UVforecast = Model.UVIndexForecast;
-                <div id="cityUV"> City: Sofia </div>
-                <div id="dateUV">Date: @UVforecast.date </div>
-                <div id="UVIndex">@UVforecast.value </div>
-            }
-        }*@
+    @{for (int l = 0; l < Model.UVIndexForecast.Count; l++)
+        {
+            ResponseUVIndex UVforecast = Model.UVIndexForecast[l];
+            <div id="cityUV"> City: Sofia </div>
+            <div id="dateUV"> Date: @UVforecast.date </div>
+            <div id="UVIndex">UV: @UVforecast.value </div>
+
+        }
+    }
 </body>
