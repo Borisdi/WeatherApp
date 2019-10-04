@@ -4,11 +4,12 @@
     <b> Current Weather Conditions </b>
 </div>
 <body>
-    <a href='http://en.sat24.com/en' target='sat24'><image src='https://api.sat24.com/animated/SE/visual/1/GTB%20Standard%20Time/7072957' width=400 height=291></a>
+    <a id="sattellite-image" href='http://en.sat24.com/en' target='sat24'><image src='https://api.sat24.com/animated/SE/visual/1/GTB%20Standard%20Time/7072957' width=400 height=291></a>
     @for (int i = 0; i < Model.CurrentWeatherConditions.cnt; i++)
     {
         ResponseWeather response = Model.CurrentWeatherConditions.list[i];
         <head>
+            <meta name="viewport", content="width-device-width, initial-scale=1.0" />
             <link rel="stylesheet" type="text/css" href="~/css/site.css?version=3">
             <link rel="stylesheet" type="text/css" href="~/css/weather-icons.css">
             <link rel="stylesheet" type="text/css" href="~/css/weather-icons-wind.css">

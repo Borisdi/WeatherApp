@@ -1,9 +1,39 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
 for details on configuring this project to bundle and minify static web assets. */
+
+
+/* Make the website responsive and mobile friendly
+*{
+    margin: 0;
+    pading: 0;
+}
+.wrapper{
+    width: 100%;
+}
+body {
+    padding:30px 30px 20px;
+}
+
+
+*/
+#sattellite-image{
+    padding:0px 30px 20px;
+    line-height:25px;
+    width:100%;
+}
+@media only screen and (min-width: 768px){
+   body{
+       width:600px;
+       margin: 0 auto;
+   }
+    #sattellite-image{
+        padding: 20px 0px 0px;
+    }
+}
+
 body {
     padding-top: 10px;
     padding-bottom: 10px;
-
 }
 #name{
     padding-top:15px;
