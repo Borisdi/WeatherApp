@@ -26,7 +26,7 @@ namespace WeatherApi3._0.Controllers
             int LocationPlovdivID = 728193;
             int LocationBurgasID = 732771;
             // HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/weather?q=" + LocationSofia + "&APPID=" + APIkey + "&units=metric") as HttpWebRequest;
-            HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/group?id=" + LocationSofiaID + "," + LocationPlovdivID + "," + LocationBurgasID + "&APPID=" + APIkey + "&units=metric") as HttpWebRequest;
+            HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/group?id=" + LocationSofiaID + "&APPID=" + APIkey + "&units=metric") as HttpWebRequest;
             string apiResponse = "";
             using (HttpWebResponse response = URL.GetResponse() as HttpWebResponse)
             {
