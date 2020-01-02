@@ -55,13 +55,15 @@
             margin-top: 50px;
             margin-bottom: 50px;
         }
+        #sattellite-image {
+         
+        }
     </style>
 </head>
 <body>
     <div class="header">
         Current Weather Conditions
     </div>
-    <a id="sattellite-image" href='http://en.sat24.com/en' target='sat24'><image src='https://api.sat24.com/animated/SE/visual/1/GTB%20Standard%20Time/7072957' width=400 height=291></a>
     @for (int i = 0; i < Model.CurrentWeatherConditions.cnt; i++)
     {
         ResponseWeather response = Model.CurrentWeatherConditions.list[i];
@@ -458,13 +460,13 @@
         }
     </div>
     <div id="UVDescription"> UV Прогноза </div>
-    <div style="width: 100%;">  
-            @{for (int l = 0; l < Model.UVIndexForecast.Count; l++)
-                {              
-                    ResponseUVIndex UVforecast = Model.UVIndexForecast[l];
-                    <div class="UVIndexForecast">
-                      <div id="cityUV"> City: Sofia </div>
-                      <div id="dateUV">
+    <div style="width: 100%;">
+        @{for (int l = 0; l < Model.UVIndexForecast.Count; l++)
+            {
+                ResponseUVIndex UVforecast = Model.UVIndexForecast[l];
+                <div class="UVIndexForecast">
+                    <div id="cityUV"> City: Sofia </div>
+                    <div id="dateUV">
                         Date:
                         @{ String timedateUV;
                             System.DateTime dtDateTimesunset = new DateTime(1970, 1, 1);
@@ -472,11 +474,12 @@
                             timedateUV = dtDateTimesunset.ToString();
                         }
                         @timedateUV
-                      </div>
-                      <div id="UVIndex">UV: @UVforecast.value </div>
+                    </div>
+                    <div id="UVIndex">UV: @UVforecast.value </div>
                 </div>
-                }
             }
-        </div>
+        }
     </div>
+    </div>
+    <a id="sattellite-image" href='http://en.sat24.com/en' target='sat24'><image src='https://api.sat24.com/animated/SE/visual/1/GTB%20Standard%20Time/7072957' width=400 height=300></a>
 </body>
