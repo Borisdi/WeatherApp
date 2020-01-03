@@ -1,391 +1,485 @@
 ﻿@using WeatherApiClass;
 @model WeatherApiModel.OpenWeatherMap;
-<div id="currentweatherconditions">
-    <b> Current Weather Conditions </b>
-</div>
+
+<head>
+    <meta name="viewport" , content="width-device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="~/css/site.css?version=3">
+    <link rel="stylesheet" type="text/css" href="~/css/weather-icons.css">
+    <link rel="stylesheet" type="text/css" href="~/css/weather-icons-wind.css">
+    <style>
+        .header {
+            padding-top: 0px;
+            padding-bottom: 10px;
+            font-size: large;
+            font-weight: bold;
+        }
+
+        #sunset {
+            padding-bottom: 30px;
+        }
+
+        #forecast {
+            padding-top: 50px;
+            font-weight: bold;
+            margin-bottom: 50px;
+        }
+        .conditions {
+            float: left;
+            padding: 4px;
+            margin: 2px;
+            border: double;
+            border-color: aqua;
+        }
+        .CurrentCityForecast {
+            float: left;
+            padding: 4px;
+            margin: 2px;
+            margin-bottom:10px;
+            border: double;
+            border-color: aqua;
+        }
+        .DateAndTimeForecast {
+            word-wrap: break-word;
+        }
+        .UVIndexForecast {
+            float: left;
+            padding: 4px;
+            margin-top:50px;
+            margin: 2px;
+            border: double;
+            border-color: aqua;
+        }
+        #UVDescription {
+            font-weight: bold;
+            font-size: large;
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+        #sattellite-image {
+         
+        }
+    </style>
+</head>
 <body>
-    <a id="sattellite-image" href='http://en.sat24.com/en' target='sat24'><image src='https://api.sat24.com/animated/SE/visual/1/GTB%20Standard%20Time/7072957' width=400 height=291></a>
+    <div class="header">
+        Current Weather Conditions
+    </div>
     @for (int i = 0; i < Model.CurrentWeatherConditions.cnt; i++)
     {
         ResponseWeather response = Model.CurrentWeatherConditions.list[i];
-        <head>
-            <meta name="viewport", content="width-device-width, initial-scale=1.0" />
-            <link rel="stylesheet" type="text/css" href="~/css/site.css?version=3">
-            <link rel="stylesheet" type="text/css" href="~/css/weather-icons.css">
-            <link rel="stylesheet" type="text/css" href="~/css/weather-icons-wind.css">
-            <style>
-                #currentweatherconditions {
-                    padding-top: 0px;
-                    padding-bottom: 10px;
-                    font-size: large;
-                }
-
-                #sunset {
-                    padding-bottom: 30px;
-                }
-
-                #forecast {
-                    padding-top: 50px;
-                }
-            </style>
-        </head>
-
-        <div id="name">
-            <b> @response.name </b>
-        </div>
-        <div id="weatherdescription">
-            <table>
+        <div class="conditions">
+            <div id="name">
+                <b> @response.name </b>
+            </div>
+            <div id="weatherdescription">
                 @response.weather[0].description
-                @{ String image = null;
-                    if (response.weather[0].description == "clear sky")
+                @{
+                    String image = null;
+                    switch (response.weather[0].description)
                     {
-                        image = "~/images/Symbols/01d.png";
-                    }
-
-                    if (response.weather[0].description == "few clouds")
-                    {
-                        image = "~/images/Symbols/02d.png";
-                    }
-
-                    if (response.weather[0].description == "scattered clouds")
-                    {
-                        image = "~/images/Symbols/03d.png";
-                    }
-
-                    if (response.weather[0].description == "broken clouds" || response.weather[0].description == "overcast clouds")
-                    {
-                        image = "~/images/Symbols/04d.png";
-                    }
-
-                    // Всички събития от група 3xx - ръмеж и дъжд
-                    string[] showers = new[] { "shower rain", "light intensity drizzle", "drizzle", "heavy intensity drizzle", "shower rain", "light intensity drizzle rain", "drizzle rain", "heavy intensity drizzle rain", "shower rain and drizzle", "heavy shower rain and drizzle", "shower drizzle", "light intensity shower rain" };
-                    if (showers.Contains(response.weather[0].description))
-                    {
-                        image = "~/images/Symbols/09d.png";
-                    }
-
-                    // Всички събития от група 5xx - дъждове с различна интензивност
-                    if (response.weather[0].description == "rain" || response.weather[0].description == "light rain" || response.weather[0].description == "moderate rain" || response.weather[0].description == "heavy intensity rain" || response.weather[0].description == "very heavy rain" || response.weather[0].description == "extreme rain" || response.weather[0].description == "light shower rain" || response.weather[0].description == "shower rain" || response.weather[0].description == "heavy intensity shower rain" || response.weather[0].description == "ragged shower rain")
-                    {
-                        image = "~/images/Symbols/10d.png";
-                    }
-                    // Всички събития от група 2xx - гръмотевична буря
-                    if (response.weather[0].description == "thunderstorm" || response.weather[0].description == "thunderstorm with light rain" || response.weather[0].description == "thunderstorm with heavy rain" || response.weather[0].description ==
-                        "light thunderstorm" || response.weather[0].description == "thunderstorm" || response.weather[0].description == "heavy thunderstorm" || response.weather[0].description == "ragged thunderstorm" || response.weather[0].description == "thunderstorm with light drizzle" || response.weather[0].description == "thunderstorm with drizzle" || response.weather[0].description == "thunderstorm with heavy drizzle" || response.weather[0].description == "thunderstorm with rain")
-                    {
-                        image = "~/images/Symbols/11d.png";
-                    }
-                    // Всички събития от група 6xx - снеговалеж с различна интензивност
-                    if (response.weather[0].description == "snow" || response.weather[0].description == "freezing rain" || response.weather[0].description == "light snow" || response.weather[0].description == "heavy snow" || response.weather[0].description == "sleet" || response.weather[0].description == "shower sleet" || response.weather[0].description == "light rain and snow" || response.weather[0].description == "rain and snow" || response.weather[0].description == "light shower snow" || response.weather[0].description == "shower snow" || response.weather[0].description == "heavy shower snow")
-                    {
-                        image = "~/images/Symbols/13d.png";
-                    }
-                    // Всички събития от група 7xx - атмосферни явления
-                    if (response.weather[0].description == "mist" || response.weather[0].description == "smoke" || response.weather[0].description == "haze" || response.weather[0].description == "sand, dust whirls" || response.weather[0].description == "fog" || response.weather[0].description == "sand" || response.weather[0].description == "dust" || response.weather[0].description == "volcanic ash" || response.weather[0].description == "squalls" || response.weather[0].description == "tornado")
-                    {
-                        image = "~/images/Symbols/50d.png";
+                        case "clear sky":
+                            image = "~/images/Symbols/01d.png";
+                            break;
+                        case "few clouds":
+                            image = "~/images/Symbols/02d.png";
+                            break;
+                        case "scattered clouds":
+                            image = "~/images/Symbols/03d.png";
+                            break;
+                        case "broken clouds":
+                        case "overcast clouds":
+                            image = "~/images/Symbols/04d.png";
+                            break;
+                        // Всички събития от група 3xx - ръмеж и дъжд
+                        case "shower rain":
+                        case "light intensity drizzle":
+                        case "drizzle":
+                        case "heavy intensity drizzle":
+                        case "light intensity drizzle rain":
+                        case "drizzle rain":
+                        case "heavy intensity drizzle rain":
+                        case "shower rain and drizzle":
+                        case "heavy shower rain and drizzle":
+                        case "shower drizzle":
+                        case "light intensity shower rain":
+                            image = "~/images/Symbols/09d.png";
+                            break;
+                        // Всички събития от група 5xx - дъждове с различна интензивност
+                        case "rain":
+                        case "light rain":
+                        case "moderate rain":
+                        case "heavy intensity rain":
+                        case "very heavy rain":
+                        case "extreme rain":
+                        case "light shower rain":
+                        case "heavy intensity shower rain":
+                        case "ragged shower rain":
+                            image = "~/images/Symbols/10d.png";
+                            break;
+                        // Всички събития от група 2xx - гръмотевична буря
+                        case "thunderstorm":
+                        case "thunderstorm with light rain":
+                        case "thunderstorm with heavy rain":
+                        case "light thunderstorm":
+                        case "heavy thunderstorm":
+                        case "ragged thunderstorm":
+                        case "thunderstorm with light drizzle":
+                        case "thunderstorm with drizzle":
+                        case "thunderstorm with heavy drizzle":
+                        case "thunderstorm with rain":
+                            image = "~/images/Symbols/11d.png";
+                            break;
+                        // Всички събития от група 6xx - снеговалеж с различна интензивност
+                        case "snow":
+                        case "freezing rain":
+                        case "light snow":
+                        case "heavy snow":
+                        case "sleet":
+                        case "shower sleet":
+                        case "light rain and snow":
+                        case "rain and snow":
+                        case "light shower snow":
+                        case "shower snow":
+                        case "heavy shower snow":
+                            image = "~/images/Symbols/13d.png";
+                            break;
+                        // Всички събития от група 7xx - атмосферни явления
+                        case "mist":
+                        case "smoke":
+                        case "haze":
+                        case "sand, dust whirls":
+                        case "fog":
+                        case "sand":
+                        case "dust":
+                        case "volcanic ash":
+                        case "squalls":
+                        case "tornado":
+                            image = "~/images/Symbols/50d.png";
+                            break;
+                        default:
+                            break;
                     }
                 }
                 <img src=@Url.Content(image) />
-        </div>
-        <div id="temperature">
-            Temperature:<i class="wi wi-thermometer-exterior"></i> @Math.Round(response.main.temp)  °C
-        </div>
-        <div id="wind">
-            Wind:<i class="wi wi-strong-wind"></i> @response.wind.speed m/s
-            @{
-                String directiondescription = null;
-                if (response.wind.deg >= 0 && response.wind.deg < 11 || response.wind.deg <= 0 && response.wind.deg > 349)
-                {
-                    directiondescription = "N";
-                    <i class="wi wi-wind wi-towards-s"></i>
-                }
-                if (response.wind.deg >= 11 && response.wind.deg < 34)
-                {
-                    directiondescription = "NNE";
-                    <i class="wi wi-wind wi-towards-ssw"></i>
-                }
-                if (response.wind.deg >= 34 && response.wind.deg < 56)
-                {
-                    directiondescription = "NE";
-                    <i class="wi wi-wind wi-towards-sw"></i>
-                }
-                if (response.wind.deg >= 56 && response.wind.deg < 79)
-                {
-                    directiondescription = "ENE";
-                    <i class="wi wi-wind wi-towards-wsw"></i>
-                }
-                if (response.wind.deg >= 79 && response.wind.deg < 101)
-                {
-                    directiondescription = "E";
-                    <i class="wi wi-wind wi-towards-w"></i>
-                }
-                if (response.wind.deg >= 101 && response.wind.deg < 124)
-                {
-                    directiondescription = "ESE";
-                    <i class="wi wi-wind wi-towards-ene"></i>
-                }
-                if (response.wind.deg >= 124 && response.wind.deg < 146)
-                {
-                    directiondescription = "SE";
-                    <i class="wi wi-wind wi-towards-nw"></i>
-                }
-                if (response.wind.deg >= 146 && response.wind.deg < 169)
-                {
-                    directiondescription = "SSE";
-                    <i class="wi wi-wind wi-towards-nnw"></i>
-                }
-                if (response.wind.deg >= 169 && response.wind.deg < 191)
-                {
-                    directiondescription = "S";
-                    <i class="wi wi-wind wi-towards-n"></i>
-                }
-                if (response.wind.deg >= 191 && response.wind.deg < 214)
-                {
-                    directiondescription = "SSW";
-                    <i class="wi wi-wind wi-towards-nne"></i>
-                }
-                if (response.wind.deg >= 214 && response.wind.deg < 236)
-                {
-                    directiondescription = "SW";
-                    <i class="wi wi-wind wi-towards-ne"></i>
-                }
-                if (response.wind.deg >= 236 && response.wind.deg < 259)
-                {
-                    directiondescription = "WSW";
-                    <i class="wi wi-wind wi-towards-ene"></i>
-                }
-                if (response.wind.deg >= 259 && response.wind.deg < 281)
-                {
-                    directiondescription = "W";
-                    <i class="wi wi-wind wi-towards-e"></i>
-                }
-                if (response.wind.deg >= 281 && response.wind.deg < 304)
-                {
-                    directiondescription = "WNW";
-                    <i class="wi wi-wind wi-towards-ese"></i>
-                }
-                if (response.wind.deg >= 304 && response.wind.deg < 326)
-                {
-                    directiondescription = "NW";
-                    <i class="wi wi-wind wi-towards-sw"></i>
-                }
-                if (response.wind.deg >= 326 && response.wind.deg < 349)
-                {
-                    directiondescription = "NNW";
-                    <i class="wi wi-wind wi-towards-ssw"></i>
-                }
-            }
-            Direction: @directiondescription
-        </div>
-        <div id="humidity">
-            Humidity:<i class="wi wi-humidity"></i> @response.main.humidity %
-        </div>
-        <div id="pressure">
-            Pressure:<i class="wi wi-barometer"></i> @Math.Round(response.main.pressure) hPa
-        </div>
-        <div id="sunrise">
-            Sunrise:<i class="wi wi-sunrise"></i> @{
-                // Converting unix date and time to human date and time and show only the time of sunrise
-                String timesunrise;
-                System.DateTime dtDateTimesunrise = new DateTime(1970, 1, 1);
-                dtDateTimesunrise = dtDateTimesunrise.AddSeconds(response.sys.sunrise).ToLocalTime();
-                timesunrise = dtDateTimesunrise.ToShortTimeString();
-            }
-            @timesunrise
-        </div>
-        <div id="sunset">
-            Sunset:<i class="wi wi-sunset"></i> @{
-                // Converting unix date and time to human date and time and show only the time of sunset
-                String timesunset;
-                System.DateTime dtDateTimesunset = new DateTime(1970, 1, 1);
-                dtDateTimesunset = dtDateTimesunset.AddSeconds(response.sys.sunset).ToLocalTime();
-                timesunset = dtDateTimesunset.ToShortTimeString();
-            }
-            @timesunset
-        </div>
-    }
-            @{for (int k = 0; k < Model.Forecast.cnt; k++)
-                {
-                    ResponseForecast forecast = Model.Forecast;
-                    <td id="forecast">City: @forecast.city.name </td>
-
-                    for (int j = 0; j < forecast.cnt; j++)
+            </div>
+            <div id="temperature">
+                Temperature:<i class="wi wi-thermometer-exterior"></i> @Math.Round(response.main.temp)  °C
+            </div>
+            <div id="wind">
+                Wind:<i class="wi wi-strong-wind"></i> @response.wind.speed m/s
+                @{
+                    String directiondescription = null;
+                    if (response.wind.deg >= 0 && response.wind.deg < 11 || response.wind.deg <= 0 && response.wind.deg > 349)
                     {
-                        ForecastData3H ForecastHourly = forecast.list[j];
-                        <td id="TimeandDateForecast">Date and Time: @ForecastHourly.dt_txt </td>
-                        <td id="weatherdescriptionForecast">
-                            <td>
-                                @ForecastHourly.weather[0].description
-                                @{ String image = null;
-                                    if (ForecastHourly.weather[0].description == "clear sky")
-                                    {
-                                        image = "~/images/Symbols/01d.png";
-                                    }
-
-                                    if (ForecastHourly.weather[0].description == "few clouds")
-                                    {
-                                        image = "~/images/Symbols/02d.png";
-                                    }
-
-                                    if (ForecastHourly.weather[0].description == "scattered clouds")
-                                    {
-                                        image = "~/images/Symbols/03d.png";
-                                    }
-
-                                    if (ForecastHourly.weather[0].description == "broken clouds" || ForecastHourly.weather[0].description == "overcast clouds")
-                                    {
-                                        image = "~/images/Symbols/04d.png";
-                                    }
-
-                                    // Всички събития от група 3xx - ръмеж и дъжд
-                                    string[] showers = new[] { "shower rain", "light intensity drizzle", "drizzle", "heavy intensity drizzle", "shower rain", "light intensity drizzle rain", "drizzle rain", "heavy intensity drizzle rain", "shower rain and drizzle", "heavy shower rain and drizzle", "shower drizzle", "light intensity shower rain" };
-                                    if (showers.Contains(ForecastHourly.weather[0].description))
-                                    {
-                                        image = "~/images/Symbols/09d.png";
-                                    }
-
-                                    // Всички събития от група 5xx - дъждове с различна интензивност
-                                    if (ForecastHourly.weather[0].description == "rain" || ForecastHourly.weather[0].description == "light rain" || ForecastHourly.weather[0].description == "moderate rain" || ForecastHourly.weather[0].description == "heavy intensity rain" || ForecastHourly.weather[0].description == "very heavy rain" || ForecastHourly.weather[0].description == "extreme rain" || ForecastHourly.weather[0].description == "light shower rain" || ForecastHourly.weather[0].description == "shower rain" || ForecastHourly.weather[0].description == "heavy intensity shower rain" || ForecastHourly.weather[0].description == "ragged shower rain")
-                                    {
-                                        image = "~/images/Symbols/10d.png";
-                                    }
-                                    // Всички събития от група 2xx - гръмотевична буря
-                                    if (ForecastHourly.weather[0].description == "thunderstorm" || ForecastHourly.weather[0].description == "thunderstorm with light rain" || ForecastHourly.weather[0].description == "thunderstorm with heavy rain" || ForecastHourly.weather[0].description ==
-                                        "light thunderstorm" || ForecastHourly.weather[0].description == "thunderstorm" || ForecastHourly.weather[0].description == "heavy thunderstorm" || ForecastHourly.weather[0].description == "ragged thunderstorm" || ForecastHourly.weather[0].description == "thunderstorm with light drizzle" || ForecastHourly.weather[0].description == "thunderstorm with drizzle" || ForecastHourly.weather[0].description == "thunderstorm with heavy drizzle" || ForecastHourly.weather[0].description == "thunderstorm with rain")
-                                    {
-                                        image = "~/images/Symbols/11d.png";
-                                    }
-                                    // Всички събития от група 6xx - снеговалеж с различна интензивност
-                                    if (ForecastHourly.weather[0].description == "snow" || ForecastHourly.weather[0].description == "freezing rain" || ForecastHourly.weather[0].description == "light snow" || ForecastHourly.weather[0].description == "heavy snow" || ForecastHourly.weather[0].description == "sleet" || ForecastHourly.weather[0].description == "shower sleet" || ForecastHourly.weather[0].description == "light rain and snow" || ForecastHourly.weather[0].description == "rain and snow" || ForecastHourly.weather[0].description == "light shower snow" || ForecastHourly.weather[0].description == "shower snow" || ForecastHourly.weather[0].description == "heavy shower snow")
-                                    {
-                                        image = "~/images/Symbols/13d.png";
-                                    }
-                                    // Всички събития от група 7xx - атмосферни явления
-                                    if (ForecastHourly.weather[0].description == "mist" || ForecastHourly.weather[0].description == "smoke" || ForecastHourly.weather[0].description == "haze" || ForecastHourly.weather[0].description == "sand, dust whirls" || ForecastHourly.weather[0].description == "fog" || ForecastHourly.weather[0].description == "sand" || ForecastHourly.weather[0].description == "dust" || ForecastHourly.weather[0].description == "volcanic ash" || ForecastHourly.weather[0].description == "squalls" || ForecastHourly.weather[0].description == "tornado")
-                                    {
-                                        image = "~/images/Symbols/50d.png";
-                                    }
-                                }
-                                <img src=@Url.Content(image) />
-                            </td>
-                        </td>
-                        <div id="forecast" position: relative;>
-                            <div id="tempForecast">Temperature: @Math.Round(ForecastHourly.main.temp) °C</div>
-                            <div id="cloudsForecast">Clouds: @ForecastHourly.clouds.all %</div>
-                            <div id="rainForecast">
-                                Rain:
-                                @{
-                                    String NullRain = null;
-                                    if (ForecastHourly.rain == null)
-                                    {
-                                        NullRain = "0";
-                                    }
-                                    else
-                                    {
-                                        @Math.Round(ForecastHourly.rain.Rain3h)
-                                    }
-                                } mm
-                            </div>
-                            <div id="winddirectionForecast">
-                                @{
-                                    String directiondescription = null;
-                                    if (ForecastHourly.wind.deg >= 0 && ForecastHourly.wind.deg < 11 || ForecastHourly.wind.deg <= 0 && ForecastHourly.wind.deg > 349)
-                                    {
-                                        directiondescription = "N";
-                                        <i class="wi wi-wind wi-towards-s"></i>
-                                    }
-                                    if (ForecastHourly.wind.deg >= 11 && ForecastHourly.wind.deg < 34)
-                                    {
-                                        directiondescription = "NNE";
-                                        <i class="wi wi-wind wi-towards-ssw"></i>
-                                    }
-                                    if (ForecastHourly.wind.deg >= 34 && ForecastHourly.wind.deg < 56)
-                                    {
-                                        directiondescription = "NE";
-                                        <i class="wi wi-wind wi-towards-sw"></i>
-                                    }
-                                    if (ForecastHourly.wind.deg >= 56 && ForecastHourly.wind.deg < 79)
-                                    {
-                                        directiondescription = "ENE";
-                                        <i class="wi wi-wind wi-towards-wsw"></i>
-                                    }
-                                    if (ForecastHourly.wind.deg >= 79 && ForecastHourly.wind.deg < 101)
-                                    {
-                                        directiondescription = "E";
-                                        <i class="wi wi-wind wi-towards-w"></i>
-                                    }
-                                    if (ForecastHourly.wind.deg >= 101 && ForecastHourly.wind.deg < 124)
-                                    {
-                                        directiondescription = "ESE";
-                                        <i class="wi wi-wind wi-towards-ene"></i>
-                                    }
-                                    if (ForecastHourly.wind.deg >= 124 && ForecastHourly.wind.deg < 146)
-                                    {
-                                        directiondescription = "SE";
-                                        <i class="wi wi-wind wi-towards-nw"></i>
-                                    }
-                                    if (ForecastHourly.wind.deg >= 146 && ForecastHourly.wind.deg < 169)
-                                    {
-                                        directiondescription = "SSE";
-                                        <i class="wi wi-wind wi-towards-nnw"></i>
-                                    }
-                                    if (ForecastHourly.wind.deg >= 169 && ForecastHourly.wind.deg < 191)
-                                    {
-                                        directiondescription = "S";
-                                        <i class="wi wi-wind wi-towards-n"></i>
-                                    }
-                                    if (ForecastHourly.wind.deg >= 191 && ForecastHourly.wind.deg < 214)
-                                    {
-                                        directiondescription = "SSW";
-                                        <i class="wi wi-wind wi-towards-nne"></i>
-                                    }
-                                    if (ForecastHourly.wind.deg >= 214 && ForecastHourly.wind.deg < 236)
-                                    {
-                                        directiondescription = "SW";
-                                        <i class="wi wi-wind wi-towards-ne"></i>
-                                    }
-                                    if (ForecastHourly.wind.deg >= 236 && ForecastHourly.wind.deg < 259)
-                                    {
-                                        directiondescription = "WSW";
-                                        <i class="wi wi-wind wi-towards-ene"></i>
-                                    }
-                                    if (ForecastHourly.wind.deg >= 259 && ForecastHourly.wind.deg < 281)
-                                    {
-                                        directiondescription = "W";
-                                        <i class="wi wi-wind wi-towards-e"></i>
-                                    }
-                                    if (ForecastHourly.wind.deg >= 281 && ForecastHourly.wind.deg < 304)
-                                    {
-                                        directiondescription = "WNW";
-                                        <i class="wi wi-wind wi-towards-ese"></i>
-                                    }
-                                    if (ForecastHourly.wind.deg >= 304 && ForecastHourly.wind.deg < 326)
-                                    {
-                                        directiondescription = "NW";
-                                        <i class="wi wi-wind wi-towards-sw"></i>
-                                    }
-                                    if (ForecastHourly.wind.deg >= 326 && ForecastHourly.wind.deg < 349)
-                                    {
-                                        directiondescription = "NNW";
-                                        <i class="wi wi-wind wi-towards-ssw"></i>
-                                    }
-                                }
-                                Direction: @directiondescription
-                            </div>
-                            <div id="windspeedForecast">Wind speed: @ForecastHourly.wind.speed m/s</div>
-                            <div id="pressureForecast">Pressure: @ForecastHourly.main.pressure hPa</div>
-                        </div>
+                        directiondescription = "N";
+                        <i class="wi wi-wind wi-towards-s"></i>
                     }
-                  }
-            }
-    @{for (int l = 0; l < Model.UVIndexForecast.Count; l++)
-        {
-            ResponseUVIndex UVforecast = Model.UVIndexForecast[l];
-            <div id="cityUV"> City: Sofia </div>
-            <div id="dateUV"> Date: @UVforecast.date </div>
-            <div id="UVIndex">UV: @UVforecast.value </div>
-
-        }
+                    if (response.wind.deg >= 11 && response.wind.deg < 34)
+                    {
+                        directiondescription = "NNE";
+                        <i class="wi wi-wind wi-towards-ssw"></i>
+                    }
+                    if (response.wind.deg >= 34 && response.wind.deg < 56)
+                    {
+                        directiondescription = "NE";
+                        <i class="wi wi-wind wi-towards-sw"></i>
+                    }
+                    if (response.wind.deg >= 56 && response.wind.deg < 79)
+                    {
+                        directiondescription = "ENE";
+                        <i class="wi wi-wind wi-towards-wsw"></i>
+                    }
+                    if (response.wind.deg >= 79 && response.wind.deg < 101)
+                    {
+                        directiondescription = "E";
+                        <i class="wi wi-wind wi-towards-w"></i>
+                    }
+                    if (response.wind.deg >= 101 && response.wind.deg < 124)
+                    {
+                        directiondescription = "ESE";
+                        <i class="wi wi-wind wi-towards-ene"></i>
+                    }
+                    if (response.wind.deg >= 124 && response.wind.deg < 146)
+                    {
+                        directiondescription = "SE";
+                        <i class="wi wi-wind wi-towards-nw"></i>
+                    }
+                    if (response.wind.deg >= 146 && response.wind.deg < 169)
+                    {
+                        directiondescription = "SSE";
+                        <i class="wi wi-wind wi-towards-nnw"></i>
+                    }
+                    if (response.wind.deg >= 169 && response.wind.deg < 191)
+                    {
+                        directiondescription = "S";
+                        <i class="wi wi-wind wi-towards-n"></i>
+                    }
+                    if (response.wind.deg >= 191 && response.wind.deg < 214)
+                    {
+                        directiondescription = "SSW";
+                        <i class="wi wi-wind wi-towards-nne"></i>
+                    }
+                    if (response.wind.deg >= 214 && response.wind.deg < 236)
+                    {
+                        directiondescription = "SW";
+                        <i class="wi wi-wind wi-towards-ne"></i>
+                    }
+                    if (response.wind.deg >= 236 && response.wind.deg < 259)
+                    {
+                        directiondescription = "WSW";
+                        <i class="wi wi-wind wi-towards-ene"></i>
+                    }
+                    if (response.wind.deg >= 259 && response.wind.deg < 281)
+                    {
+                        directiondescription = "W";
+                        <i class="wi wi-wind wi-towards-e"></i>
+                    }
+                    if (response.wind.deg >= 281 && response.wind.deg < 304)
+                    {
+                        directiondescription = "WNW";
+                        <i class="wi wi-wind wi-towards-ese"></i>
+                    }
+                    if (response.wind.deg >= 304 && response.wind.deg < 326)
+                    {
+                        directiondescription = "NW";
+                        <i class="wi wi-wind wi-towards-sw"></i>
+                    }
+                    if (response.wind.deg >= 326 && response.wind.deg < 349)
+                    {
+                        directiondescription = "NNW";
+                        <i class="wi wi-wind wi-towards-ssw"></i>
+                    }
+                }
+                Direction: @directiondescription
+            </div>
+            <div id="humidity">
+                Humidity:<i class="wi wi-humidity"></i> @response.main.humidity %
+            </div>
+            <div id="pressure">
+                Pressure:<i class="wi wi-barometer"></i> @Math.Round(response.main.pressure) hPa
+            </div>
+            <div id="sunrise">
+                Sunrise:<i class="wi wi-sunrise"></i> @{
+                    // Converting unix date and time to human date and time and show only the time of sunrise
+                    String timesunrise;
+                    System.DateTime dtDateTimesunrise = new DateTime(1970, 1, 1);
+                    dtDateTimesunrise = dtDateTimesunrise.AddSeconds(response.sys.sunrise).ToLocalTime();
+                    timesunrise = dtDateTimesunrise.ToShortTimeString();
+                }
+                @timesunrise
+            </div>
+            <div id="sunset">
+                Sunset:<i class="wi wi-sunset"></i> @{
+                    // Converting unix date and time to human date and time and show only the time of sunset
+                    String timesunset;
+                    System.DateTime dtDateTimesunset = new DateTime(1970, 1, 1);
+                    dtDateTimesunset = dtDateTimesunset.AddSeconds(response.sys.sunset).ToLocalTime();
+                    timesunset = dtDateTimesunset.ToShortTimeString();
+                }
+                @timesunset
+            </div>
+        </div>
     }
+
+    <div class="header">
+        Forecast
+    </div>
+    <div style="width: 100%;">
+        @{
+            ResponseForecast forecast = Model.Forecast;
+            <div id="forecast">City: @forecast.city.name </div>
+
+            for (int j = 0; j < forecast.cnt; j++)
+            {
+                ForecastData3H ForecastHourly = forecast.list[j];
+                <div class="CurrentCityForecast">
+                    <div class="DateAndTimeForecast">Date and Time: @ForecastHourly.dt_txt </div>
+                    <div class="weatherdescriptionForecast">
+                        @ForecastHourly.weather[0].description
+                        @{
+                            String image = null;
+                            if (ForecastHourly.weather[0].description == "clear sky")
+                            {
+                                image = "~/images/Symbols/01d.png";
+                            }
+
+                            if (ForecastHourly.weather[0].description == "few clouds")
+                            {
+                                image = "~/images/Symbols/02d.png";
+                            }
+
+                            if (ForecastHourly.weather[0].description == "scattered clouds")
+                            {
+                                image = "~/images/Symbols/03d.png";
+                            }
+
+                            if (ForecastHourly.weather[0].description == "broken clouds" || ForecastHourly.weather[0].description == "overcast clouds")
+                            {
+                                image = "~/images/Symbols/04d.png";
+                            }
+
+                            // Всички събития от група 3xx - ръмеж и дъжд
+                            string[] showers = new[] { "shower rain", "light intensity drizzle", "drizzle", "heavy intensity drizzle", "shower rain", "light intensity drizzle rain", "drizzle rain", "heavy intensity drizzle rain", "shower rain and drizzle", "heavy shower rain and drizzle", "shower drizzle", "light intensity shower rain" };
+                            if (showers.Contains(ForecastHourly.weather[0].description))
+                            {
+                                image = "~/images/Symbols/09d.png";
+                            }
+
+                            // Всички събития от група 5xx - дъждове с различна интензивност
+                            if (ForecastHourly.weather[0].description == "rain" || ForecastHourly.weather[0].description == "light rain" || ForecastHourly.weather[0].description == "moderate rain" || ForecastHourly.weather[0].description == "heavy intensity rain" || ForecastHourly.weather[0].description == "very heavy rain" || ForecastHourly.weather[0].description == "extreme rain" || ForecastHourly.weather[0].description == "light shower rain" || ForecastHourly.weather[0].description == "shower rain" || ForecastHourly.weather[0].description == "heavy intensity shower rain" || ForecastHourly.weather[0].description == "ragged shower rain")
+                            {
+                                image = "~/images/Symbols/10d.png";
+                            }
+                            // Всички събития от група 2xx - гръмотевична буря
+                            if (ForecastHourly.weather[0].description == "thunderstorm" || ForecastHourly.weather[0].description == "thunderstorm with light rain" || ForecastHourly.weather[0].description == "thunderstorm with heavy rain" || ForecastHourly.weather[0].description ==
+                                "light thunderstorm" || ForecastHourly.weather[0].description == "thunderstorm" || ForecastHourly.weather[0].description == "heavy thunderstorm" || ForecastHourly.weather[0].description == "ragged thunderstorm" || ForecastHourly.weather[0].description == "thunderstorm with light drizzle" || ForecastHourly.weather[0].description == "thunderstorm with drizzle" || ForecastHourly.weather[0].description == "thunderstorm with heavy drizzle" || ForecastHourly.weather[0].description == "thunderstorm with rain")
+                            {
+                                image = "~/images/Symbols/11d.png";
+                            }
+                            // Всички събития от група 6xx - снеговалеж с различна интензивност
+                            if (ForecastHourly.weather[0].description == "snow" || ForecastHourly.weather[0].description == "freezing rain" || ForecastHourly.weather[0].description == "light snow" || ForecastHourly.weather[0].description == "heavy snow" || ForecastHourly.weather[0].description == "sleet" || ForecastHourly.weather[0].description == "shower sleet" || ForecastHourly.weather[0].description == "light rain and snow" || ForecastHourly.weather[0].description == "rain and snow" || ForecastHourly.weather[0].description == "light shower snow" || ForecastHourly.weather[0].description == "shower snow" || ForecastHourly.weather[0].description == "heavy shower snow")
+                            {
+                                image = "~/images/Symbols/13d.png";
+                            }
+                            // Всички събития от група 7xx - атмосферни явления
+                            if (ForecastHourly.weather[0].description == "mist" || ForecastHourly.weather[0].description == "smoke" || ForecastHourly.weather[0].description == "haze" || ForecastHourly.weather[0].description == "sand, dust whirls" || ForecastHourly.weather[0].description == "fog" || ForecastHourly.weather[0].description == "sand" || ForecastHourly.weather[0].description == "dust" || ForecastHourly.weather[0].description == "volcanic ash" || ForecastHourly.weather[0].description == "squalls" || ForecastHourly.weather[0].description == "tornado")
+                            {
+                                image = "~/images/Symbols/50d.png";
+                            }
+                        }
+                        <img src=@Url.Content(image) />
+                    </div>
+                    <div>
+                        <div class="tempForecast">Temperature: @Math.Round(ForecastHourly.main.temp) °C</div>
+                        <div class="cloudsForecast">Clouds: @ForecastHourly.clouds.all %</div>
+                        <div class="rainForecast">
+                            Rain:
+                            @{
+                                String NullRain = null;
+                                if (ForecastHourly.rain == null)
+                                {
+                                    NullRain = "0";
+                                }
+                                else
+                                {
+                                    @Math.Round(ForecastHourly.rain.Rain3h)
+                                }
+                            } mm
+                        </div>
+                        <div class="winddirectionForecast">
+                            @{
+                                String directiondescription = null;
+                                if (ForecastHourly.wind.deg >= 0 && ForecastHourly.wind.deg < 11 || ForecastHourly.wind.deg <= 0 && ForecastHourly.wind.deg > 349)
+                                {
+                                    directiondescription = "N";
+                                    <i class="wi wi-wind wi-towards-s"></i>
+                                }
+                                if (ForecastHourly.wind.deg >= 11 && ForecastHourly.wind.deg < 34)
+                                {
+                                    directiondescription = "NNE";
+                                    <i class="wi wi-wind wi-towards-ssw"></i>
+                                }
+                                if (ForecastHourly.wind.deg >= 34 && ForecastHourly.wind.deg < 56)
+                                {
+                                    directiondescription = "NE";
+                                    <i class="wi wi-wind wi-towards-sw"></i>
+                                }
+                                if (ForecastHourly.wind.deg >= 56 && ForecastHourly.wind.deg < 79)
+                                {
+                                    directiondescription = "ENE";
+                                    <i class="wi wi-wind wi-towards-wsw"></i>
+                                }
+                                if (ForecastHourly.wind.deg >= 79 && ForecastHourly.wind.deg < 101)
+                                {
+                                    directiondescription = "E";
+                                    <i class="wi wi-wind wi-towards-w"></i>
+                                }
+                                if (ForecastHourly.wind.deg >= 101 && ForecastHourly.wind.deg < 124)
+                                {
+                                    directiondescription = "ESE";
+                                    <i class="wi wi-wind wi-towards-ene"></i>
+                                }
+                                if (ForecastHourly.wind.deg >= 124 && ForecastHourly.wind.deg < 146)
+                                {
+                                    directiondescription = "SE";
+                                    <i class="wi wi-wind wi-towards-nw"></i>
+                                }
+                                if (ForecastHourly.wind.deg >= 146 && ForecastHourly.wind.deg < 169)
+                                {
+                                    directiondescription = "SSE";
+                                    <i class="wi wi-wind wi-towards-nnw"></i>
+                                }
+                                if (ForecastHourly.wind.deg >= 169 && ForecastHourly.wind.deg < 191)
+                                {
+                                    directiondescription = "S";
+                                    <i class="wi wi-wind wi-towards-n"></i>
+                                }
+                                if (ForecastHourly.wind.deg >= 191 && ForecastHourly.wind.deg < 214)
+                                {
+                                    directiondescription = "SSW";
+                                    <i class="wi wi-wind wi-towards-nne"></i>
+                                }
+                                if (ForecastHourly.wind.deg >= 214 && ForecastHourly.wind.deg < 236)
+                                {
+                                    directiondescription = "SW";
+                                    <i class="wi wi-wind wi-towards-ne"></i>
+                                }
+                                if (ForecastHourly.wind.deg >= 236 && ForecastHourly.wind.deg < 259)
+                                {
+                                    directiondescription = "WSW";
+                                    <i class="wi wi-wind wi-towards-ene"></i>
+                                }
+                                if (ForecastHourly.wind.deg >= 259 && ForecastHourly.wind.deg < 281)
+                                {
+                                    directiondescription = "W";
+                                    <i class="wi wi-wind wi-towards-e"></i>
+                                }
+                                if (ForecastHourly.wind.deg >= 281 && ForecastHourly.wind.deg < 304)
+                                {
+                                    directiondescription = "WNW";
+                                    <i class="wi wi-wind wi-towards-ese"></i>
+                                }
+                                if (ForecastHourly.wind.deg >= 304 && ForecastHourly.wind.deg < 326)
+                                {
+                                    directiondescription = "NW";
+                                    <i class="wi wi-wind wi-towards-sw"></i>
+                                }
+                                if (ForecastHourly.wind.deg >= 326 && ForecastHourly.wind.deg < 349)
+                                {
+                                    directiondescription = "NNW";
+                                    <i class="wi wi-wind wi-towards-ssw"></i>
+                                }
+                            }
+                            Direction: @directiondescription
+                        </div>
+                        <div class="windspeedForecast">Wind speed: @ForecastHourly.wind.speed m/s</div>
+                        <div class="pressureForecast">Pressure: @ForecastHourly.main.pressure hPa</div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <div id="UVDescription"> UV Прогноза </div>
+    <div style="width: 100%;">
+        @{for (int l = 0; l < Model.UVIndexForecast.Count; l++)
+            {
+                ResponseUVIndex UVforecast = Model.UVIndexForecast[l];
+                <div class="UVIndexForecast">
+                    <div id="cityUV"> City: Sofia </div>
+                    <div id="dateUV">
+                        Date:
+                        @{ String timedateUV;
+                            System.DateTime dtDateTimesunset = new DateTime(1970, 1, 1);
+                            dtDateTimesunset = dtDateTimesunset.AddSeconds(UVforecast.date).ToLocalTime();
+                            timedateUV = dtDateTimesunset.ToString();
+                        }
+                        @timedateUV
+                    </div>
+                    <div id="UVIndex">UV: @UVforecast.value </div>
+                </div>
+            }
+        }
+    </div>
+    </div>
+    <a id="sattellite-image" href='http://en.sat24.com/en' target='sat24'><image src='https://api.sat24.com/animated/SE/visual/1/GTB%20Standard%20Time/7072957' width=400 height=300></a>
 </body>

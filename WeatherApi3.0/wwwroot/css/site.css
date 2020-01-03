@@ -13,6 +13,15 @@ for details on configuring this project to bundle and minify static web assets. 
 body {
     padding:30px 30px 20px;
 }
+
+
+*/
+
+#sattellite-image{
+    padding:0px 30px 20px;
+    line-height:25px;
+    width:100%;
+}
 @media only screen and (min-width: 768px){
    body{
        width:600px;
@@ -23,16 +32,6 @@ body {
     }
 }
 
-*/
-/*#forecast {
-    float: left;
-    display: inline-block;
-}*/
-#sattellite-image{
-    padding:0px 30px 20px;
-    line-height:25px;
-    width:100%;
-}
 body {
     padding-top: 10px;
     padding-bottom: 10px;
