@@ -7,9 +7,9 @@
     <!--Required meta tag-->
     <meta charset="utf-8">
     <!--Responsive meta tag-->
-    <meta name="viewport" , content="width-device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <meta name="viewport" , content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
 
-    <link rel="stylesheet" type="text/css" href="~/css/site.css?version=3">
+    <!--<link rel="stylesheet" type="text/css" href="~/css/site.css?version=3">-->
     <link rel="stylesheet" type="text/css" href="~/css/weather-icons.css">
     <link rel="stylesheet" type="text/css" href="~/css/weather-icons-wind.css">
     <!--Bootstrap-->
@@ -76,9 +76,59 @@
 <body>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <!--<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script> -->
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Всичко за времето</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Начало</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#">Прогнози</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Анализ</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Планини</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Крайбрежие</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Сезонни</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Агрокултурна</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Астрономическа</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Летни курорти</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Зимни курорти</a>
+                    </div>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Климат</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">За медии</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">За Нас</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Контакти</a>
+            </ul>
+        </div>
+    </nav>
 
     <div class="header">
         Current Weather Conditions
@@ -179,7 +229,7 @@
                             break;
                     }
                 }
-                <img src=@Url.Content(image) />
+                <img class="img-responsive" src=@Url.Content(image) />
             </div>
             <div id="temperature">
                 Temperature:<i class="wi wi-thermometer-exterior"></i> @Math.Round(response.main.temp)  °C
@@ -300,7 +350,7 @@
         </div>
     }
 
-    <div class="header">
+    <div class="header" class="table-hover">
         Forecast
     </div>
     <div style="width: 100%;">
@@ -366,7 +416,7 @@
                                 image = "~/images/Symbols/50d.png";
                             }
                         }
-                        <img src=@Url.Content(image) />
+                        <img class="img-responsive" src=@Url.Content(image) />
                     </div>
                     <div>
                         <div class="tempForecast">Temperature: @Math.Round(ForecastHourly.main.temp) °C</div>
@@ -500,6 +550,6 @@
         }
     </div>
     </div>
-    <a id="sattellite-image" href='http://en.sat24.com/en' target='sat24'><image src='https://api.sat24.com/animated/SE/visual/1/GTB%20Standard%20Time/7072957' width=400 height=300></a>
+    <a id="sattellite-image" href='http://en.sat24.com/en' target='sat24'><img class="img-responsive" src='https://api.sat24.com/animated/SE/visual/1/GTB%20Standard%20Time/7072957' width=400 height=300 /></a>
 </body>
 </html>
