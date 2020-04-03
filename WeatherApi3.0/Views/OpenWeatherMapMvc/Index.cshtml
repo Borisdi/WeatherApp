@@ -1,4 +1,5 @@
 ﻿@using WeatherApiClass;
+@using System.Globalization;
 @model WeatherApiModel.OpenWeatherMap;
 
 <!doctype html>
@@ -9,69 +10,11 @@
     <!--Responsive meta tag-->
     <meta name="viewport" , content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
 
-    <!--<link rel="stylesheet" type="text/css" href="~/css/site.css?version=3">-->
+    <link rel="stylesheet" type="text/css" href="~/css/site.css?version=3">
     <link rel="stylesheet" type="text/css" href="~/css/weather-icons.css">
     <link rel="stylesheet" type="text/css" href="~/css/weather-icons-wind.css">
     <!--Bootstrap-->
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <style>
-        .header {
-            padding-top: 0px;
-            padding-bottom: 10px;
-            font-size: large;
-            font-weight: bold;
-        }
-
-        #sunset {
-            padding-bottom: 30px;
-        }
-
-        #forecast {
-            padding-top: 50px;
-            font-weight: bold;
-            margin-bottom: 50px;
-        }
-
-        .conditions {
-            float: left;
-            padding: 4px;
-            margin: 2px;
-            border: double;
-            border-color: aqua;
-        }
-
-        .CurrentCityForecast {
-            float: left;
-            padding: 4px;
-            margin: 2px;
-            margin-bottom: 10px;
-            border: double;
-            border-color: aqua;
-        }
-
-        .DateAndTimeForecast {
-            word-wrap: break-word;
-        }
-
-        .UVIndexForecast {
-            float: left;
-            padding: 4px;
-            margin-top: 50px;
-            margin: 2px;
-            border: double;
-            border-color: aqua;
-        }
-
-        #UVDescription {
-            font-weight: bold;
-            font-size: large;
-            margin-top: 50px;
-            margin-bottom: 50px;
-        }
-
-        #sattellite-image {
-        }
-    </style>
 </head>
 <body>
     <!-- Optional JavaScript -->
@@ -130,17 +73,20 @@
         </div>
     </nav>
 
-    <div class="header">
-        Current Weather Conditions
-    </div>
+
     @for (int i = 0; i < Model.CurrentWeatherConditions.cnt; i++)
     {
         ResponseWeather response = Model.CurrentWeatherConditions.list[i];
-        <div class="conditions">
-            <div id="name">
-                <b> @response.name </b>
+        <div class="box">
+
+            <div class="today">В момента,  </div>
+            <div class="time">@DateTime.Now.ToString("h:mm tt")</div>
+            <div class="date">@DateTime.Now.Date.ToString("dd MMMM", new CultureInfo("bg-BG"))</div>
+            
+            <div class="name" id="size-cell">
+                 @response.name
             </div>
-            <div id="weatherdescription">
+            <div class="weatherdescription">
                 @response.weather[0].description
                 @{
                     String image = null;
@@ -231,11 +177,11 @@
                 }
                 <img class="img-responsive" src=@Url.Content(image) />
             </div>
-            <div id="temperature">
-                Temperature:<i class="wi wi-thermometer-exterior"></i> @Math.Round(response.main.temp)  °C
+            <div class="temperature">
+                <i class="wi wi-thermometer-exterior"></i> @Math.Round(response.main.temp)  °C
             </div>
             <div id="wind">
-                Wind:<i class="wi wi-strong-wind"></i> @response.wind.speed m/s
+                <i class="wi wi-strong-wind"></i> @response.wind.speed m/s
                 @{
                     String directiondescription = null;
                     if (response.wind.deg >= 0 && response.wind.deg < 11 || response.wind.deg <= 0 && response.wind.deg > 349)
@@ -319,16 +265,16 @@
                         <i class="wi wi-wind wi-towards-ssw"></i>
                     }
                 }
-                Direction: @directiondescription
+                @directiondescription
             </div>
             <div id="humidity">
-                Humidity:<i class="wi wi-humidity"></i> @response.main.humidity %
+                <i class="wi wi-humidity"></i> @response.main.humidity %
             </div>
             <div id="pressure">
-                Pressure:<i class="wi wi-barometer"></i> @Math.Round(response.main.pressure) hPa
+                <i class="wi wi-barometer"></i> @Math.Round(response.main.pressure) hPa
             </div>
             <div id="sunrise">
-                Sunrise:<i class="wi wi-sunrise"></i> @{
+                <i class="wi wi-sunrise"></i> @{
                     // Converting unix date and time to human date and time and show only the time of sunrise
                     String timesunrise;
                     System.DateTime dtDateTimesunrise = new DateTime(1970, 1, 1);
@@ -338,7 +284,7 @@
                 @timesunrise
             </div>
             <div id="sunset">
-                Sunset:<i class="wi wi-sunset"></i> @{
+                <i class="wi wi-sunset"></i> @{
                     // Converting unix date and time to human date and time and show only the time of sunset
                     String timesunset;
                     System.DateTime dtDateTimesunset = new DateTime(1970, 1, 1);
