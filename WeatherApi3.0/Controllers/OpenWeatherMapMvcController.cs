@@ -26,7 +26,7 @@ namespace WeatherApi3._0.Controllers
             int LocationPlovdivID = 728193;
             int LocationBurgasID = 732771;
             // HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/weather?q=" + LocationSofia + "&APPID=" + APIkey + "&units=metric") as HttpWebRequest;
-            HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/group?id=" + LocationSofiaID + "&APPID=" + APIkey + "&units=metric") as HttpWebRequest;
+            HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/group?id=" + LocationSofiaID + "&APPID=" + APIkey + "&units=metric" + "&lang=bg") as HttpWebRequest;
             string apiResponse = "";
             using (HttpWebResponse response = URL.GetResponse() as HttpWebResponse)
             {
@@ -54,7 +54,7 @@ namespace WeatherApi3._0.Controllers
         int LocationSofiaID = 727011;
         int LocationPlovdivID = 728193;
         int LocationBurgasID = 732771;
-        HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/forecast?q=" + LocationSofia + "&APPID=" + APIkey + "&units=metric") as HttpWebRequest;
+        HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/forecast?q=" + LocationSofia + "&APPID=" + APIkey + "&units=metric" + "&lang=bg") as HttpWebRequest;
         string apiResponseforecast = "";
         using (HttpWebResponse response = URL.GetResponse() as HttpWebResponse)
         {
@@ -71,7 +71,7 @@ namespace WeatherApi3._0.Controllers
         string APIkey = "6d85a7afd458036f67cfcce6e5c8815f";
         String SofiaCoordLat = "42.69";
         String SofiaCoordLon = "23.32";
-        HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/uvi/forecast?" + "appid=" + APIkey + "&lat=" + SofiaCoordLat + "&lon=" + SofiaCoordLon) as HttpWebRequest;                                                
+        HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/uvi/forecast?" + "appid=" + APIkey + "&lat=" + SofiaCoordLat + "&lon=" + SofiaCoordLon + "&lang=bg") as HttpWebRequest;                                                
             string apiResponseUVIndexForecast = "";
         using (HttpWebResponse response = URL.GetResponse() as HttpWebResponse)
         {
