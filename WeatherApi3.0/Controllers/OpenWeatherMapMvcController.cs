@@ -15,10 +15,11 @@ namespace WeatherApi3._0.Controllers
 {
     public class OpenWeatherMapMvcController : Controller
     {
+        private string APIkey = "6d85a7afd458036f67cfcce6e5c8815f";
+
         [HttpGet]
         public IActionResult Index()
-        {
-            string APIkey = "6d85a7afd458036f67cfcce6e5c8815f";
+        {            
             string LocationSofia = "Sofia";
             string LocationPlovdiv = "Plovdiv";
             string LocationBurgas = "Burgas";
@@ -37,57 +38,75 @@ namespace WeatherApi3._0.Controllers
             ResponseWeatherList rootObject = JsonConvert.DeserializeObject<ResponseWeatherList>(apiResponse);
             OpenWeatherMap Model = new OpenWeatherMap()
             {
-                CurrentWeatherConditions = rootObject,
+                CurrentWeatherConditions = rootObject.list.FirstOrDefault(),
                 Forecast = GetForecast(),
                 UVIndexForecast = GetUVIndexForecast()
             };
             return View(Model);
-    }
-    /* http://api.openweathermap.org/data/2.5/forecast?q=Sofia&APPID=6d85a7afd458036f67cfcce6e5c8815f&units=metric */
-
-    private ResponseForecast GetForecast()
-    {
-        string APIkey = "6d85a7afd458036f67cfcce6e5c8815f";
-        string LocationSofia = "Sofia";
-        string LocationPlovdiv = "Plovdiv";
-        string LocationBurgas = "Burgas";
-        int LocationSofiaID = 727011;
-        int LocationPlovdivID = 728193;
-        int LocationBurgasID = 732771;
-        HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/forecast?q=" + LocationSofia + "&APPID=" + APIkey + "&units=metric" + "&lang=bg") as HttpWebRequest;
-        string apiResponseforecast = "";
-        using (HttpWebResponse response = URL.GetResponse() as HttpWebResponse)
-        {
-            StreamReader reader = new StreamReader(response.GetResponseStream());
-            apiResponseforecast = reader.ReadToEnd();
         }
 
-        ResponseForecast rootObject = JsonConvert.DeserializeObject<ResponseForecast>(apiResponseforecast);
-        return rootObject;
-    }
+        [HttpGet]
+        public IActionResult GetCurrentConditionsAndForecast(double latitude, double longitude)
+        {
+            HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/group?&lat=" + latitude + "&lon=" + longitude + "&APPID=" + APIkey + "&units=metric" + "&lang=bg") as HttpWebRequest;
+            string apiResponse = "";
+            using (HttpWebResponse response = URL.GetResponse() as HttpWebResponse)
+            {
+                StreamReader reader = new StreamReader(response.GetResponseStream());
+                apiResponse = reader.ReadToEnd();
+            }
 
-    private List<ResponseUVIndex> GetUVIndexForecast()
-    {
-        string APIkey = "6d85a7afd458036f67cfcce6e5c8815f";
-        String SofiaCoordLat = "42.69";
-        String SofiaCoordLon = "23.32";
-        HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/uvi/forecast?" + "appid=" + APIkey + "&lat=" + SofiaCoordLat + "&lon=" + SofiaCoordLon + "&lang=bg") as HttpWebRequest;                                                
+            ResponseWeatherList rootObject = JsonConvert.DeserializeObject<ResponseWeatherList>(apiResponse);
+            OpenWeatherMap Model = new OpenWeatherMap()
+            {
+                CurrentWeatherConditions = rootObject.list.FirstOrDefault()
+            };
+            return View(Model);
+        }
+
+        /* http://api.openweathermap.org/data/2.5/forecast?q=Sofia&APPID=6d85a7afd458036f67cfcce6e5c8815f&units=metric */
+
+        private ResponseForecast GetForecast()
+        {
+            string LocationSofia = "Sofia";
+            string LocationPlovdiv = "Plovdiv";
+            string LocationBurgas = "Burgas";
+            int LocationSofiaID = 727011;
+            int LocationPlovdivID = 728193;
+            int LocationBurgasID = 732771;
+            HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/forecast?q=" + LocationSofia + "&APPID=" + APIkey + "&units=metric" + "&lang=bg") as HttpWebRequest;
+            string apiResponseforecast = "";
+            using (HttpWebResponse response = URL.GetResponse() as HttpWebResponse)
+            {
+                StreamReader reader = new StreamReader(response.GetResponseStream());
+                apiResponseforecast = reader.ReadToEnd();
+            }
+
+            ResponseForecast rootObject = JsonConvert.DeserializeObject<ResponseForecast>(apiResponseforecast);
+            return rootObject;
+        }
+
+        private List<ResponseUVIndex> GetUVIndexForecast()
+        {
+            String SofiaCoordLat = "42.69";
+            String SofiaCoordLon = "23.32";
+            HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/uvi/forecast?" + "appid=" + APIkey + "&lat=" + SofiaCoordLat + "&lon=" + SofiaCoordLon + "&lang=bg") as HttpWebRequest;
             string apiResponseUVIndexForecast = "";
-        using (HttpWebResponse response = URL.GetResponse() as HttpWebResponse)
-        {
-            StreamReader reader = new StreamReader(response.GetResponseStream());
-            apiResponseUVIndexForecast = reader.ReadToEnd();
+            using (HttpWebResponse response = URL.GetResponse() as HttpWebResponse)
+            {
+                StreamReader reader = new StreamReader(response.GetResponseStream());
+                apiResponseUVIndexForecast = reader.ReadToEnd();
+            }
+
+            List<ResponseUVIndex> rootObject = JsonConvert.DeserializeObject<List<ResponseUVIndex>>(apiResponseUVIndexForecast);
+            return rootObject;
         }
 
-        List<ResponseUVIndex> rootObject = JsonConvert.DeserializeObject<List<ResponseUVIndex>>(apiResponseUVIndexForecast);
-        return rootObject;
+        [HttpGet]
+        public string Error()
+        {
+            string ErrorMessage = "Oops something went wrong";
+            return ErrorMessage;
+        }
     }
-
-    [HttpGet]
-    public string Error()
-    {
-        string ErrorMessage = "Oops something went wrong";
-        return ErrorMessage;
-    }
-}
 }

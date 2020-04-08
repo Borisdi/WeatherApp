@@ -48,4 +48,10 @@
     <None Include="wwwroot\images\Symbols\index.jpg" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\OpenWeatherMapMvc\_CurrentLocationConditions.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>
