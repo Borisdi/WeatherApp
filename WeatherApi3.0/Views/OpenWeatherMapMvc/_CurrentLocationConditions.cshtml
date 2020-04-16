@@ -1,1 +1,239 @@
-﻿
+﻿@using WeatherApiClass;
+@using System.Globalization;
+@model ResponseWeather;
+    <link rel="stylesheet" type="text/css" href="~/css/site.css?version=3">
+
+@{
+    ResponseWeather response = Model;
+    <div class="box">
+
+        <div class="today">В момента,  </div>
+        <div class="time">@DateTime.Now.ToString("h:mm tt")</div>
+        <div class="date">@DateTime.Now.Date.ToString("dd MMMM", new CultureInfo("bg-BG"))</div>
+
+        <div class="name" id="size-cell">
+            @response.name
+        </div>
+        <div class="weatherdescription">
+            <img class="img-responsive" src=@Url.Content(GetImage(response.weather[0].description)) />
+        </div>
+        <div class="temperature">
+            <i class="wi wi-thermometer-exterior"></i> @Math.Round(response.main.temp)  °C
+        </div>
+        <div id="wind">
+            <i class="wi wi-strong-wind"></i> @response.wind.speed m/s
+            @{
+                var (directiondescription, windCssClass) = GetWindDirection(response.wind.deg);
+            }
+            @directiondescription
+            <i class="@windCssClass"></i>
+        </div>
+        <div id="humidity">
+            <i class="wi wi-humidity"></i> @response.main.humidity %
+        </div>
+        <div id="pressure">
+            <i class="wi wi-barometer"></i> @Math.Round(response.main.pressure) hPa
+        </div>
+        <div id="sunrise">
+            <i class="wi wi-sunrise"></i> @{
+                // Converting unix date and time to human date and time and show only the time of sunrise
+                String timesunrise;
+                System.DateTime dtDateTimesunrise = new DateTime(1970, 1, 1);
+                dtDateTimesunrise = dtDateTimesunrise.AddSeconds(response.sys.sunrise).ToLocalTime();
+                timesunrise = dtDateTimesunrise.ToShortTimeString();
+            }
+            @timesunrise
+        </div>
+        <div id="sunset">
+            <i class="wi wi-sunset"></i> @{
+                // Converting unix date and time to human date and time and show only the time of sunset
+                String timesunset;
+                System.DateTime dtDateTimesunset = new DateTime(1970, 1, 1);
+                dtDateTimesunset = dtDateTimesunset.AddSeconds(response.sys.sunset).ToLocalTime();
+                timesunset = dtDateTimesunset.ToShortTimeString();
+            }
+            @timesunset
+        </div>
+    </div>
+}
+
+@functions {
+public string GetImage(string description)
+{
+    String image = null;
+    switch (description)
+    {
+        case "clear sky":
+            image = "~/images/Symbols/01d.png";
+            break;
+        case "few clouds":
+            image = "~/images/Symbols/02d.png";
+            break;
+        case "scattered clouds":
+            image = "~/images/Symbols/03d.png";
+            break;
+        case "broken clouds":
+        case "overcast clouds":
+            image = "~/images/Symbols/04d.png";
+            break;
+        // Всички събития от група 3xx - ръмеж и дъжд
+        case "shower rain":
+        case "light intensity drizzle":
+        case "drizzle":
+        case "heavy intensity drizzle":
+        case "light intensity drizzle rain":
+        case "drizzle rain":
+        case "heavy intensity drizzle rain":
+        case "shower rain and drizzle":
+        case "heavy shower rain and drizzle":
+        case "shower drizzle":
+        case "light intensity shower rain":
+            image = "~/images/Symbols/09d.png";
+            break;
+        // Всички събития от група 5xx - дъждове с различна интензивност
+        case "rain":
+        case "light rain":
+        case "moderate rain":
+        case "heavy intensity rain":
+        case "very heavy rain":
+        case "extreme rain":
+        case "light shower rain":
+        case "heavy intensity shower rain":
+        case "ragged shower rain":
+            image = "~/images/Symbols/10d.png";
+            break;
+        // Всички събития от група 2xx - гръмотевична буря
+        case "thunderstorm":
+        case "thunderstorm with light rain":
+        case "thunderstorm with heavy rain":
+        case "light thunderstorm":
+        case "heavy thunderstorm":
+        case "ragged thunderstorm":
+        case "thunderstorm with light drizzle":
+        case "thunderstorm with drizzle":
+        case "thunderstorm with heavy drizzle":
+        case "thunderstorm with rain":
+            image = "~/images/Symbols/11d.png";
+            break;
+        // Всички събития от група 6xx - снеговалеж с различна интензивност
+        case "snow":
+        case "freezing rain":
+        case "light snow":
+        case "heavy snow":
+        case "sleet":
+        case "shower sleet":
+        case "light rain and snow":
+        case "rain and snow":
+        case "light shower snow":
+        case "shower snow":
+        case "heavy shower snow":
+            image = "~/images/Symbols/13d.png";
+            break;
+        // Всички събития от група 7xx - атмосферни явления
+        case "mist":
+        case "smoke":
+        case "haze":
+        case "sand, dust whirls":
+        case "fog":
+        case "sand":
+        case "dust":
+        case "volcanic ash":
+        case "squalls":
+        case "tornado":
+            image = "~/images/Symbols/50d.png";
+            break;
+        default:
+            break;
+    }
+
+    return image;
+}
+
+public Tuple<string, string> GetWindDirection(double degree)
+{
+    string description = "";
+    string cssClass = "";
+    if (degree >= 0 && degree < 11 || degree <= 0 && degree > 349)
+    {
+        description = "N";
+        cssClass = "wi wi-wind wi-towards-s";
+    }
+    if (degree >= 11 && degree < 34)
+    {
+        description = "NNE";
+        cssClass = "wi wi-wind wi-towards-ssw";
+    }
+    if (degree >= 34 && degree < 56)
+    {
+        description = "NE";
+        cssClass = "wi wi-wind wi-towards-sw";
+    }
+    if (degree >= 56 && degree < 79)
+    {
+        description = "ENE";
+        cssClass = "wi wi-wind wi-towards-wsw";
+    }
+    if (degree >= 79 && degree < 101)
+    {
+        description = "E";
+        cssClass = "wi wi-wind wi-towards-w";
+    }
+    if (degree >= 101 && degree < 124)
+    {
+        description = "ESE";
+        cssClass = "wi wi-wind wi-towards-ene";
+    }
+    if (degree >= 124 && degree < 146)
+    {
+        description = "SE";
+        cssClass = "wi wi-wind wi-towards-nw";
+    }
+    if (degree >= 146 && degree < 169)
+    {
+        description = "SSE";
+        cssClass = "wi wi-wind wi-towards-nnw";
+    }
+    if (degree >= 169 && degree < 191)
+    {
+        description = "S";
+        cssClass = "wi wi-wind wi-towards-n";
+    }
+    if (degree >= 191 && degree < 214)
+    {
+        description = "SSW";
+        cssClass = "wi wi-wind wi-towards-nne";
+    }
+    if (degree >= 214 && degree < 236)
+    {
+        description = "SW";
+        cssClass = "wi wi-wind wi-towards-ne";
+    }
+    if (degree >= 236 && degree < 259)
+    {
+        description = "WSW";
+        cssClass = "wi wi-wind wi-towards-ene";
+    }
+    if (degree >= 259 && degree < 281)
+    {
+        description = "W";
+        cssClass = "wi wi-wind wi-towards-e";
+    }
+    if (degree >= 281 && degree < 304)
+    {
+        description = "WNW";
+        cssClass = "wi wi-wind wi-towards-ese";
+    }
+    if (degree >= 304 && degree < 326)
+    {
+        description = "NW";
+        cssClass = "wi wi-wind wi-towards-sw";
+    }
+    if (degree >= 326 && degree < 349)
+    {
+        description = "NNW";
+        cssClass = "wi wi-wind wi-towards-ssw";
+    }
+
+    return new Tuple<string, string>(description, cssClass);
+}
+}

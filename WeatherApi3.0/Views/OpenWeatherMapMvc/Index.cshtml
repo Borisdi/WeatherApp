@@ -39,8 +39,16 @@
             }
         }
         function onGetCoordinates(position) {
-            position.coords.latitude
-            position.coords.longitude;
+            $.ajax({
+                url: '@Url.Action("GetCurrentConditionsAndForecast", "OpenWeatherMapMvc")',
+                type:"GET",
+                dataType: "html",
+                data: { latitude: position.coords.latitude, longitude: position.coords.longitude },
+                success: function (data) {
+                    $('#currentconditions').html(data);
+                },
+            });
+
         }
         getLocation();
         function showError(error) {
@@ -57,6 +65,8 @@
                 case error.UNKNOWN_ERROR:
                     x.innerHTML = "An unknown error occurred."
                     break;
+            }
+        }
     </script>
 
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
@@ -67,7 +77,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Начало</a>
+                    <a class="nav-link" href="@Url.Action("Index","OpenWeatherMapMvc")">Начало</a>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#">Прогнози</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -102,60 +112,9 @@
             </ul>
         </div>
     </nav>
-
-    @{
-        ResponseWeather response = Model.CurrentWeatherConditions;
-        <div class="box">
-
-            <div class="today">В момента,  </div>
-            <div class="time">@DateTime.Now.ToString("h:mm tt")</div>
-            <div class="date">@DateTime.Now.Date.ToString("dd MMMM", new CultureInfo("bg-BG"))</div>
-
-            <div class="name" id="size-cell">
-                @response.name
-            </div>
-            <div class="weatherdescription">
-                <img class="img-responsive" src=@Url.Content(GetImage(response.weather[0].description)) />
-            </div>
-            <div class="temperature">
-                <i class="wi wi-thermometer-exterior"></i> @Math.Round(response.main.temp)  °C
-            </div>
-            <div id="wind">
-                <i class="wi wi-strong-wind"></i> @response.wind.speed m/s
-                @{
-                    var (directiondescription, windCssClass) = GetWindDirection(response.wind.deg);
-                }
-                @directiondescription
-                <i class="@windCssClass"></i>
-            </div>
-            <div id="humidity">
-                <i class="wi wi-humidity"></i> @response.main.humidity %
-            </div>
-            <div id="pressure">
-                <i class="wi wi-barometer"></i> @Math.Round(response.main.pressure) hPa
-            </div>
-            <div id="sunrise">
-                <i class="wi wi-sunrise"></i> @{
-                    // Converting unix date and time to human date and time and show only the time of sunrise
-                    String timesunrise;
-                    System.DateTime dtDateTimesunrise = new DateTime(1970, 1, 1);
-                    dtDateTimesunrise = dtDateTimesunrise.AddSeconds(response.sys.sunrise).ToLocalTime();
-                    timesunrise = dtDateTimesunrise.ToShortTimeString();
-                }
-                @timesunrise
-            </div>
-            <div id="sunset">
-                <i class="wi wi-sunset"></i> @{
-                    // Converting unix date and time to human date and time and show only the time of sunset
-                    String timesunset;
-                    System.DateTime dtDateTimesunset = new DateTime(1970, 1, 1);
-                    dtDateTimesunset = dtDateTimesunset.AddSeconds(response.sys.sunset).ToLocalTime();
-                    timesunset = dtDateTimesunset.ToShortTimeString();
-                }
-                @timesunset
-            </div>
-        </div>
-    }
+    <div id="currentconditions">
+        @await Html.PartialAsync("_CurrentLocationConditions", Model.CurrentWeatherConditions)
+    </div>
 
     <div class="header" class="table-hover">
         Forecast
@@ -192,7 +151,7 @@
                         </div>
                         <div class="winddirectionForecast">
                             @{
-                                var (directiondescriptionForecast, windCssClassForecast) = GetWindDirection(response.wind.deg);
+                                var (directiondescriptionForecast, windCssClassForecast) = GetWindDirection(ForecastHourly.wind.deg);
                             }
                             Direction: @directiondescriptionForecast
                             <i class="@windCssClassForecast"></i>
