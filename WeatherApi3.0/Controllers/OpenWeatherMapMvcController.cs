@@ -25,9 +25,10 @@ namespace WeatherApi3._0.Controllers
             int LocationSofiaID = 727011;
             int LocationPlovdivID = 728193;
             int LocationBurgasID = 732771;
-            double latitude = 42.69;
+            double latitude = 42.7;
             double longitude = 23.32;
-            HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/weather?q=" + LocationSofia + "&APPID=" + APIkey + "&units=metric" + "lang=bg") as HttpWebRequest;
+            HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/group?id=" + LocationSofiaID + "&APPID=" + APIkey + "&units=metric" + "&lang=bg") as HttpWebRequest;
+            //HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/weather?q=" + LocationSofia + "&APPID=" + APIkey + "&units=metric" + "&lang=bg") as HttpWebRequest;
             //HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/weather" + "?lat=" + latitude + "&lon=" + longitude + "&APPID=" + APIkey + "&units=metric" + "&lang=bg") as HttpWebRequest;
             string apiResponse = "";
             using (HttpWebResponse response = URL.GetResponse() as HttpWebResponse)
@@ -65,6 +66,11 @@ namespace WeatherApi3._0.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAnalysis()
+        {  
+            return View("_Analysis");
+        }
         /* http://api.openweathermap.org/data/2.5/forecast?q=Sofia&APPID=6d85a7afd458036f67cfcce6e5c8815f&units=metric */
 
         private ResponseForecast GetForecast()

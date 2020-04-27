@@ -48,7 +48,6 @@
                     $('#currentconditions').html(data);
                 },
             });
-
         }
         getLocation();
         function showError(error) {
@@ -67,123 +66,153 @@
                     break;
             }
         }
+         function onClickGetAnalysis() {
+            $.ajax({
+                url: '@Url.Action("_Analysis", "OpenWeatherMapMvc")',
+                success: function () {
+                    $('.maincontent').html(maincontent);
+                },
+            });
+        }
+        function openForecastTab(evt, forecastType) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(forecastType).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
     </script>
+    <div class="maincontent">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Всичко за времето</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="@Url.Action("Index","OpenWeatherMapMvc")">Начало</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#">Прогнози</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="@Url.Action("GetAnalysis","OpenWeatherMapMvc")">Анализ</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Планини</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Крайбрежие</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Сезонни</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Агрокултурна</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Астрономическа</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Летни курорти</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Зимни курорти</a>
+                        </div>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Климат</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">За медии</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">За Нас</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Контакти</a>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div class="tab">
+        <button class="tablinks" onclick="openForecastTab(event, 'twoweeks')">14-дневна</button>
+        <button class="tablinks" onclick="openForecastTab(event, '96hours')">По часове - 96 часа напред</button>
+        <button class="tablinks" onclick="openForecastTab(event, 'uvforecast')">UV</button>
+    </div>
 
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Всичко за времето</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="@Url.Action("Index","OpenWeatherMapMvc")">Начало</a>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#">Прогнози</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Анализ</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Планини</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Крайбрежие</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Сезонни</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Агрокултурна</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Астрономическа</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Летни курорти</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Зимни курорти</a>
-                    </div>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Климат</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">За медии</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">За Нас</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Контакти</a>
-            </ul>
-        </div>
-    </nav>
     <div id="currentconditions">
         @await Html.PartialAsync("_CurrentLocationConditions", Model.CurrentWeatherConditions)
     </div>
-
-    <div class="header" class="table-hover">
-        Forecast
-    </div>
-    <div style="width: 100%;">
-        @{
-            ResponseForecast forecast = Model.Forecast;
-            <div id="forecast">City: @forecast.city.name </div>
-
-            for (int j = 0; j < forecast.cnt; j++)
-            {
-                ForecastData3H ForecastHourly = forecast.list[j];
-                <div class="CurrentCityForecast">
-                    <div class="DateAndTimeForecast">Date and Time: @ForecastHourly.dt_txt </div>
-                    <div class="weatherdescriptionForecast">
-                        <img class="img-responsive" src=@Url.Content(GetImage(ForecastHourly.weather[0].description)) />
-                    </div>
-                    <div>
-                        <div class="tempForecast">Temperature: @Math.Round(ForecastHourly.main.temp) °C</div>
-                        <div class="cloudsForecast">Clouds: @ForecastHourly.clouds.all %</div>
-                        <div class="rainForecast">
-                            Rain:
-                            @{
-                                String NullRain = null;
-                                if (ForecastHourly.rain == null)
-                                {
-                                    NullRain = "0";
-                                }
-                                else
-                                {
-                                    @Math.Round(ForecastHourly.rain.Rain3h)
-                                }
-                            } mm
+    <div id="twoweeks" class="tabcontent">
+        <p>
+            <div style="width: 100%;">
+                @{
+                    ResponseForecast forecast = Model.Forecast;
+                    <div id="forecast">14 дневна прогноза за @forecast.city.name </div>
+                    for (int j = 0; j < forecast.cnt; j++)
+                    {
+                        ForecastData3H ForecastHourly = forecast.list[j];
+                        <div class="CurrentCityForecast">
+                            <div class="DateAndTimeForecast">Date and Time: @ForecastHourly.dt_txt </div>
+                            <div class="weatherdescriptionForecast">
+                                <img class="img-responsive" src=@Url.Content(GetImage(ForecastHourly.weather[0].description)) />
+                            </div>
+                            <div>
+                                <div class="tempForecast">Temperature: @Math.Round(ForecastHourly.main.temp) °C</div>
+                                <div class="cloudsForecast">Clouds: @ForecastHourly.clouds.all %</div>
+                                <div class="rainForecast">
+                                    Rain:
+                                    @{
+                                        String NullRain = null;
+                                        if (ForecastHourly.rain == null)
+                                        {
+                                            NullRain = "0";
+                                        }
+                                        else
+                                        {
+                                            @Math.Round(ForecastHourly.rain.Rain3h)
+                                        }
+                                    } mm
+                                </div>
+                                <div class="winddirectionForecast">
+                                    @{
+                                        var (directiondescriptionForecast, windCssClassForecast) = GetWindDirection(ForecastHourly.wind.deg);
+                                    }
+                                    Direction: @directiondescriptionForecast
+                                    <i class="@windCssClassForecast"></i>
+                                </div>
+                                <div class="windspeedForecast">Wind speed: @ForecastHourly.wind.speed m/s</div>
+                                <div class="pressureForecast">Pressure: @ForecastHourly.main.pressure hPa</div>
+                            </div>
                         </div>
-                        <div class="winddirectionForecast">
-                            @{
-                                var (directiondescriptionForecast, windCssClassForecast) = GetWindDirection(ForecastHourly.wind.deg);
-                            }
-                            Direction: @directiondescriptionForecast
-                            <i class="@windCssClassForecast"></i>
+                    }
+                }
+            </div>
+        </p>
+    </div>
+    <div id="uvforecast" class="tabcontent">
+        <p>
+            <div id="UVDescription"> UV Прогноза за @forecast.city.name </div>
+            <div style="width: 100%;">        
+                @{for (int l = 0; l < Model.UVIndexForecast.Count; l++)
+                    {
+                        ResponseUVIndex UVforecast = Model.UVIndexForecast[l];
+                        <div class="UVIndexForecast">
+                            <div id="cityUV"> City: Sofia </div>
+                            <div id="dateUV">
+                                Date:
+                                @{ String timedateUV;
+                                    System.DateTime dtDateTimesunset1 = new DateTime(1970, 1, 1);
+                                    dtDateTimesunset1 = dtDateTimesunset1.AddSeconds(UVforecast.date).ToLocalTime();
+                                    timedateUV = dtDateTimesunset1.ToString();
+                                }
+                                @timedateUV
+                            </div>
+                            <div id="UVIndex">UV: @UVforecast.value </div>
                         </div>
-                        <div class="windspeedForecast">Wind speed: @ForecastHourly.wind.speed m/s</div>
-                        <div class="pressureForecast">Pressure: @ForecastHourly.main.pressure hPa</div>
-                    </div>
-                </div>
-            }
-        }
-    </div>
-    <div id="UVDescription"> UV Прогноза </div>
-    <div style="width: 100%;">
-        @{for (int l = 0; l < Model.UVIndexForecast.Count; l++)
-            {
-                ResponseUVIndex UVforecast = Model.UVIndexForecast[l];
-                <div class="UVIndexForecast">
-                    <div id="cityUV"> City: Sofia </div>
-                    <div id="dateUV">
-                        Date:
-                        @{ String timedateUV;
-                            System.DateTime dtDateTimesunset1 = new DateTime(1970, 1, 1);
-                            dtDateTimesunset1 = dtDateTimesunset1.AddSeconds(UVforecast.date).ToLocalTime();
-                            timedateUV = dtDateTimesunset1.ToString();
-                        }
-                        @timedateUV
-                    </div>
-                    <div id="UVIndex">UV: @UVforecast.value </div>
-                </div>
-            }
-        }
-    </div>
+                    }
+                }
+            </div>
+        </p>
     </div>
     <a id="sattellite-image" href='http://en.sat24.com/en' target='sat24'><img class="img-responsive" src='https://api.sat24.com/animated/SE/visual/1/GTB%20Standard%20Time/7072957' width=400 height=300 /></a>
 </body>

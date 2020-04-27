@@ -49,6 +49,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\OpenWeatherMapMvc\_Analysis.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\OpenWeatherMapMvc\_CurrentLocationConditions.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
