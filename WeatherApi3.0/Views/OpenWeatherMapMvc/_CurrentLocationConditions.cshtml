@@ -14,11 +14,12 @@
         <div class="name" id="size-cell">
             @response.name
         </div>
-        <div class="weatherdescription">
-            <img class="img-responsive" src=@Url.Content(GetImage(response.weather[0].description)) />
+        <div class="weatherdescriptioncurrent">
+            <img class="img-responsive" src=@Url.Content(GetImage(response.weather[0].id)) />
         </div>
+        <div class="weatherdescriptioncurrenttxt">@response.weather[0].description</div>
         <div class="temperature">
-            <i class="wi wi-thermometer-exterior"></i> @Math.Round(response.main.temp)  °C
+            <i class="wi wi-thermometer"></i> @Math.Round(response.main.temp)  °C
         </div>
         <div id="wind">
             <i class="wi wi-strong-wind"></i> @response.wind.speed m/s
@@ -58,97 +59,97 @@
 }
 
 @functions {
-public string GetImage(string description)
-{
-    String image = null;
-    switch (description)
+    public string GetImage(int id)
     {
-        case "clear sky":
-            image = "~/images/Symbols/01d.png";
-            break;
-        case "few clouds":
-            image = "~/images/Symbols/02d.png";
-            break;
-        case "scattered clouds":
-            image = "~/images/Symbols/03d.png";
-            break;
-        case "broken clouds":
-        case "overcast clouds":
-            image = "~/images/Symbols/04d.png";
-            break;
-        // Всички събития от група 3xx - ръмеж и дъжд
-        case "shower rain":
-        case "light intensity drizzle":
-        case "drizzle":
-        case "heavy intensity drizzle":
-        case "light intensity drizzle rain":
-        case "drizzle rain":
-        case "heavy intensity drizzle rain":
-        case "shower rain and drizzle":
-        case "heavy shower rain and drizzle":
-        case "shower drizzle":
-        case "light intensity shower rain":
-            image = "~/images/Symbols/09d.png";
-            break;
-        // Всички събития от група 5xx - дъждове с различна интензивност
-        case "rain":
-        case "light rain":
-        case "moderate rain":
-        case "heavy intensity rain":
-        case "very heavy rain":
-        case "extreme rain":
-        case "light shower rain":
-        case "heavy intensity shower rain":
-        case "ragged shower rain":
-            image = "~/images/Symbols/10d.png";
-            break;
-        // Всички събития от група 2xx - гръмотевична буря
-        case "thunderstorm":
-        case "thunderstorm with light rain":
-        case "thunderstorm with heavy rain":
-        case "light thunderstorm":
-        case "heavy thunderstorm":
-        case "ragged thunderstorm":
-        case "thunderstorm with light drizzle":
-        case "thunderstorm with drizzle":
-        case "thunderstorm with heavy drizzle":
-        case "thunderstorm with rain":
-            image = "~/images/Symbols/11d.png";
-            break;
-        // Всички събития от група 6xx - снеговалеж с различна интензивност
-        case "snow":
-        case "freezing rain":
-        case "light snow":
-        case "heavy snow":
-        case "sleet":
-        case "shower sleet":
-        case "light rain and snow":
-        case "rain and snow":
-        case "light shower snow":
-        case "shower snow":
-        case "heavy shower snow":
-            image = "~/images/Symbols/13d.png";
-            break;
-        // Всички събития от група 7xx - атмосферни явления
-        case "mist":
-        case "smoke":
-        case "haze":
-        case "sand, dust whirls":
-        case "fog":
-        case "sand":
-        case "dust":
-        case "volcanic ash":
-        case "squalls":
-        case "tornado":
-            image = "~/images/Symbols/50d.png";
-            break;
-        default:
-            break;
+        String image = null;
+        switch (id)
+        {
+            case 800:
+                image = "~/images/Symbols/01d.png";
+                break;
+            case 801:
+                image = "~/images/Symbols/02d.png";
+                break;
+            case 802:
+                image = "~/images/Symbols/03d.png";
+                break;
+            case 803:
+            case 804:
+                image = "~/images/Symbols/04d.png";
+                break;
+            // Всички събития от група 3xx - ръмеж и дъжд
+            case 300:
+            case 301:
+            case 302:
+            case 310:
+            case 311:
+            case 312:
+            case 313:
+            case 314:
+            case 321:
+                image = "~/images/Symbols/09d.png";
+                break;
+            // Всички събития от група 5xx - дъждове с различна интензивност
+            case 500:
+            case 501:
+            case 502:
+            case 503:
+            case 504:
+            case 511:
+            case 520:
+            case 521:
+            case 522:
+            case 531:
+                image = "~/images/Symbols/10d.png";
+                break;
+            // Всички събития от група 2xx - гръмотевична буря
+            case 200:
+            case 201:
+            case 202:
+            case 210:
+            case 211:
+            case 212:
+            case 221:
+            case 230:
+            case 231:
+            case 232:
+                image = "~/images/Symbols/11d.png";
+                break;
+            // Всички събития от група 6xx - снеговалеж с различна интензивност
+            case 600:
+            case 601:
+            case 602:
+            case 611:
+            case 612:
+            case 615:
+            case 616:
+            case 620:
+            case 621:
+            case 622:
+                image = "~/images/Symbols/13d.png";
+                break;
+            // Всички събития от група 7xx - атмосферни явления
+            case 701:
+            case 711:
+            case 721:
+            case 731:
+            case 741:
+            case 751:
+            case 761:
+            case 762:
+            case 771:
+            case 781:
+                image = "~/images/Symbols/50d.png";
+                break;
+            default:
+                break;
+        }
+        return image;
     }
-
-    return image;
 }
 
+@functions
+{
 public Tuple<string, string> GetWindDirection(double degree)
 {
     string description = "";
@@ -235,5 +236,5 @@ public Tuple<string, string> GetWindDirection(double degree)
     }
 
     return new Tuple<string, string>(description, cssClass);
-}
+  }
 }
