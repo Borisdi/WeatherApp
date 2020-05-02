@@ -7,13 +7,20 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using WeatherApiClass;
-using WeatherApiModel;
+using WeatherApp.Service.Models.OpenWeatherMap;
+using WeatherApp.Service.Interfaces;
 
 namespace WeatherApi3._0.Controllers
 {
     public class OpenWeatherMapMvcController : Controller
     {
+        private readonly IWeatherService _openWeatherMap;
+
+        public OpenWeatherMapMvcController(IWeatherService openWeatherMapService)
+        {
+            _openWeatherMap = openWeatherMapService;
+        }
+
         private string APIkey = "6d85a7afd458036f67cfcce6e5c8815f";
     
         [HttpGet]
@@ -37,7 +44,7 @@ namespace WeatherApi3._0.Controllers
                 apiResponse = reader.ReadToEnd();
             }
 
-            ResponseWeatherList rootObject = JsonConvert.DeserializeObject<ResponseWeatherList>(apiResponse);
+            WeatherList rootObject = JsonConvert.DeserializeObject<WeatherList>(apiResponse);
             OpenWeatherMap Model = new OpenWeatherMap()
             {
                 CurrentWeatherConditions = rootObject.list.FirstOrDefault(),
@@ -57,7 +64,7 @@ namespace WeatherApi3._0.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                var currentConditions = JsonConvert.DeserializeObject<ResponseWeather>(content);
+                var currentConditions = JsonConvert.DeserializeObject<CurrentConditions>(content);
                 return View("_CurrentLocationConditions", currentConditions);
             }
             else
@@ -73,7 +80,7 @@ namespace WeatherApi3._0.Controllers
         }
         /* http://api.openweathermap.org/data/2.5/forecast?q=Sofia&APPID=6d85a7afd458036f67cfcce6e5c8815f&units=metric */
 
-        private ResponseForecast GetForecast()
+        private Forecast GetForecast()
         {
             string LocationSofia = "Sofia";
             string LocationPlovdiv = "Plovdiv";
@@ -89,7 +96,7 @@ namespace WeatherApi3._0.Controllers
                 apiResponseforecast = reader.ReadToEnd();
             }
 
-            ResponseForecast rootObject = JsonConvert.DeserializeObject<ResponseForecast>(apiResponseforecast);
+            var rootObject = JsonConvert.DeserializeObject<Forecast>(apiResponseforecast);
             return rootObject;
         }
 

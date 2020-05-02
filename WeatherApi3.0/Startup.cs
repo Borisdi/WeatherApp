@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WeatherApp.Service;
+using WeatherApp.Service.Interfaces;
 
 namespace WeatherApi3._0
 {
@@ -33,6 +35,10 @@ namespace WeatherApi3._0
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //TODO: inject OpenWeaatherMap into controller
+            
+            services.AddSingleton<IWeatherService>(sp => { 
+                return new OpenWeatherMapService("http://api.openweathermap.org", "6d85a7afd458036f67cfcce6e5c8815f", new System.Net.Http.HttpClient()); });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

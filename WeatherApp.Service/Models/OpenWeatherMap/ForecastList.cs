@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WeatherApiClass
+namespace WeatherApp.Service.Models.OpenWeatherMap
 {
-    public class ResponseForecastList
+    public class ForecastList
 
     {
         public int cnt;
-        public List<ResponseForecast> list;
+        public List<Forecast> list;
 
     }
 }

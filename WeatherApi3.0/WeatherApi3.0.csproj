@@ -23,7 +23,6 @@
   <ItemGroup>
     <PackageReference Include="bootstrap" Version="4.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
@@ -46,6 +45,10 @@
     <None Include="wwwroot\images\Symbols\13d.png" />
     <None Include="wwwroot\images\Symbols\50d.png" />
     <None Include="wwwroot\images\Symbols\index.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WeatherApp.Service\WeatherApp.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>

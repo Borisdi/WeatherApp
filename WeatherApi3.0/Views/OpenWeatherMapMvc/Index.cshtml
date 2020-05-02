@@ -1,6 +1,5 @@
-﻿@using WeatherApiClass;
-@using System.Globalization;
-@model WeatherApiModel.OpenWeatherMap;
+﻿@using WeatherApp.Service.Models.OpenWeatherMap;
+@model WeatherApp.Service.Models.OpenWeatherMap.OpenWeatherMap;
 
 <!doctype html>
 <html lang="en">
@@ -146,7 +145,7 @@
         <p>
             <div style="width: 100%;">
                 @{
-                    ResponseForecast forecast = Model.Forecast;
+                    var forecast = Model.Forecast;
                     <div id="forecast">14 дневна прогноза за @forecast.city.name </div>
                     for (int j = 0; j < forecast.cnt; j++)
                     {

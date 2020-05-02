@@ -1,10 +1,11 @@
-﻿@using WeatherApiClass;
+﻿using WeatherApp.Service.Models.OpenWeatherMap;
 @using System.Globalization;
-@model ResponseWeather;
-    <link rel="stylesheet" type="text/css" href="~/css/site.css?version=3">
+@model WeatherApp.Service.Models.OpenWeatherMap.CurrentConditions;
+
+<link rel="stylesheet" type="text/css" href="~/css/site.css?version=3">
 
 @{
-    ResponseWeather response = Model;
+    var response = Model;
     <div class="box">
 
         <div class="today">В момента,  </div>
@@ -150,91 +151,91 @@
 
 @functions
 {
-public Tuple<string, string> GetWindDirection(double degree)
-{
-    string description = "";
-    string cssClass = "";
-    if (degree >= 0 && degree < 11 || degree <= 0 && degree > 349)
+    public Tuple<string, string> GetWindDirection(double degree)
     {
-        description = "N";
-        cssClass = "wi wi-wind wi-towards-s";
-    }
-    if (degree >= 11 && degree < 34)
-    {
-        description = "NNE";
-        cssClass = "wi wi-wind wi-towards-ssw";
-    }
-    if (degree >= 34 && degree < 56)
-    {
-        description = "NE";
-        cssClass = "wi wi-wind wi-towards-sw";
-    }
-    if (degree >= 56 && degree < 79)
-    {
-        description = "ENE";
-        cssClass = "wi wi-wind wi-towards-wsw";
-    }
-    if (degree >= 79 && degree < 101)
-    {
-        description = "E";
-        cssClass = "wi wi-wind wi-towards-w";
-    }
-    if (degree >= 101 && degree < 124)
-    {
-        description = "ESE";
-        cssClass = "wi wi-wind wi-towards-ene";
-    }
-    if (degree >= 124 && degree < 146)
-    {
-        description = "SE";
-        cssClass = "wi wi-wind wi-towards-nw";
-    }
-    if (degree >= 146 && degree < 169)
-    {
-        description = "SSE";
-        cssClass = "wi wi-wind wi-towards-nnw";
-    }
-    if (degree >= 169 && degree < 191)
-    {
-        description = "S";
-        cssClass = "wi wi-wind wi-towards-n";
-    }
-    if (degree >= 191 && degree < 214)
-    {
-        description = "SSW";
-        cssClass = "wi wi-wind wi-towards-nne";
-    }
-    if (degree >= 214 && degree < 236)
-    {
-        description = "SW";
-        cssClass = "wi wi-wind wi-towards-ne";
-    }
-    if (degree >= 236 && degree < 259)
-    {
-        description = "WSW";
-        cssClass = "wi wi-wind wi-towards-ene";
-    }
-    if (degree >= 259 && degree < 281)
-    {
-        description = "W";
-        cssClass = "wi wi-wind wi-towards-e";
-    }
-    if (degree >= 281 && degree < 304)
-    {
-        description = "WNW";
-        cssClass = "wi wi-wind wi-towards-ese";
-    }
-    if (degree >= 304 && degree < 326)
-    {
-        description = "NW";
-        cssClass = "wi wi-wind wi-towards-sw";
-    }
-    if (degree >= 326 && degree < 349)
-    {
-        description = "NNW";
-        cssClass = "wi wi-wind wi-towards-ssw";
-    }
+        string description = "";
+        string cssClass = "";
+        if (degree >= 0 && degree < 11 || degree <= 0 && degree > 349)
+        {
+            description = "N";
+            cssClass = "wi wi-wind wi-towards-s";
+        }
+        if (degree >= 11 && degree < 34)
+        {
+            description = "NNE";
+            cssClass = "wi wi-wind wi-towards-ssw";
+        }
+        if (degree >= 34 && degree < 56)
+        {
+            description = "NE";
+            cssClass = "wi wi-wind wi-towards-sw";
+        }
+        if (degree >= 56 && degree < 79)
+        {
+            description = "ENE";
+            cssClass = "wi wi-wind wi-towards-wsw";
+        }
+        if (degree >= 79 && degree < 101)
+        {
+            description = "E";
+            cssClass = "wi wi-wind wi-towards-w";
+        }
+        if (degree >= 101 && degree < 124)
+        {
+            description = "ESE";
+            cssClass = "wi wi-wind wi-towards-ene";
+        }
+        if (degree >= 124 && degree < 146)
+        {
+            description = "SE";
+            cssClass = "wi wi-wind wi-towards-nw";
+        }
+        if (degree >= 146 && degree < 169)
+        {
+            description = "SSE";
+            cssClass = "wi wi-wind wi-towards-nnw";
+        }
+        if (degree >= 169 && degree < 191)
+        {
+            description = "S";
+            cssClass = "wi wi-wind wi-towards-n";
+        }
+        if (degree >= 191 && degree < 214)
+        {
+            description = "SSW";
+            cssClass = "wi wi-wind wi-towards-nne";
+        }
+        if (degree >= 214 && degree < 236)
+        {
+            description = "SW";
+            cssClass = "wi wi-wind wi-towards-ne";
+        }
+        if (degree >= 236 && degree < 259)
+        {
+            description = "WSW";
+            cssClass = "wi wi-wind wi-towards-ene";
+        }
+        if (degree >= 259 && degree < 281)
+        {
+            description = "W";
+            cssClass = "wi wi-wind wi-towards-e";
+        }
+        if (degree >= 281 && degree < 304)
+        {
+            description = "WNW";
+            cssClass = "wi wi-wind wi-towards-ese";
+        }
+        if (degree >= 304 && degree < 326)
+        {
+            description = "NW";
+            cssClass = "wi wi-wind wi-towards-sw";
+        }
+        if (degree >= 326 && degree < 349)
+        {
+            description = "NNW";
+            cssClass = "wi wi-wind wi-towards-ssw";
+        }
 
-    return new Tuple<string, string>(description, cssClass);
-  }
+        return new Tuple<string, string>(description, cssClass);
+    }
 }
