@@ -71,13 +71,19 @@ body {
     padding-bottom: 4px;
     font-size: 25px;
 }
-.weatherdescriptionforecast {
-    margin-left:50px;
-    margin-top:-37px;
+#forecastbox{
+    width:150px;
+    margin-left:-46px;
+    margin-top:-22px;
 }
-.weatherdescriptioncurrent{
-    margin-left:10px;
-    padding-left:10px;
+.weatherdescriptionforecast {
+    padding: 8px;
+    margin-left:0px;
+    margin-top:-6px;
+}
+.weatherdescriptioncurrent {
+    margin-left: 10px;
+    padding-left: 10px;
 }
 .weatherdescriptioncurrenttxt {
     margin-left: 18px;
@@ -131,7 +137,6 @@ body {
     font-size: 20px;
     font-weight: bold;
 }
-
 #forecast {
     display: block;
     padding-top: 10px;
@@ -143,15 +148,29 @@ body {
 .DateAndTimeForecast {
     word-wrap: break-word;
 }
-
-.UVIndexForecast {
+div.UVDescription {
+    background-color: #333;
+    overflow: auto;
+    white-space: nowrap;
+}
+div.UVDescription a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
+}
+div.UVDescription a:hover {
+    background-color: #777;
+}
+/*.UVIndexForecast {
     float: left;
     padding: 4px;
     margin-top: 50px;
     margin: 2px;
     border: solid;
     border-color: black;
-}
+}*/
 
 #UVDescription {
     font-weight: bold;
@@ -240,6 +259,7 @@ body {
     padding: 6px 12px;
     -webkit-animation: fadeEffect 1s;
     animation: fadeEffect 1s;
+    text-align:center;
 }
 
 /* Fade in tabs */

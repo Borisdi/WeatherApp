@@ -1,4 +1,5 @@
 ﻿@using WeatherApp.Service.Models.OpenWeatherMap;
+@using System.Globalization;
 @model WeatherApp.Service.Models.OpenWeatherMap.OpenWeatherMap;
 
 <!doctype html>
@@ -143,17 +144,24 @@
     </div>
     <div id="twoweeks" class="tabcontent">
         <p>
-            <div style="width: 100%;">
+            <div id="forecastbox">
                 @{
                     var forecast = Model.Forecast;
-                    <div id="forecast">14 дневна прогноза за @forecast.city.name </div>
-                    for (int j = 0; j < forecast.cnt; j++)
-                    {
-                        ForecastData3H ForecastHourly = forecast.list[j];
+                    @*<div id="forecast">14 дневна прогноза за @forecast.city.name </div>*@
+                for (int j = 0; j < forecast.cnt; j++)
+                {
+                    ForecastData3H ForecastHourly = forecast.list[j];
                     <div class="CurrentCityForecast">
-                        <div class="DateAndTimeForecast">Date and Time: @ForecastHourly.dt_txt </div>
+                        <div class="DateAndTimeForecast">
+                            @{  var culture = new System.Globalization.CultureInfo("bg-BG");
+                                string format = "ddd d/M HH:mm";
+                                var day = DateTime.Parse(ForecastHourly.dt_txt).ToString(format);
+                                
+                             }@day
+
+                        </div>
                         <div class="weatherdescriptionForecast">
-                            <img class="img-responsive" src=@Url.Content(GetImage(ForecastHourly.weather[0].id)) />
+                            <img id="imageweathersymbol" class="img-responsive" src=@Url.Content(GetImage(ForecastHourly.weather[0].id)) />
                         </div>
                         <div class="weatherdescriptionforecast">@ForecastHourly.weather[0].description</div>
                         <div>
@@ -162,16 +170,12 @@
                             <div class="rainForecast">
                                 Rain:
                                 @{
-                                    String NullRain = null;
-                                    if (ForecastHourly.rain == null)
+                                    double rain = 0;
+                                    if (ForecastHourly.rain != null)
                                     {
-                                        NullRain = "0";
-                                    }
-                                    else
-                                    {
-                                        @Math.Round(ForecastHourly.rain.Rain3h)
-                                    }
-                                } mm
+                                        rain = Math.Round(ForecastHourly.rain.Rain3h);
+                                    }                                  
+                                    } @rain mm
                             </div>
                             <div class="winddirectionForecast">
                                 @{
@@ -180,7 +184,7 @@
                                 Direction: @directiondescriptionForecast
                                 <i class="@windCssClassForecast"></i>
                             </div>
-                            <div class="windspeedForecast">Wind speed: @ForecastHourly.wind.speed m/s</div>
+                            <div class="windspeedForecast">Wind speed: @Math.Round(ForecastHourly.wind.speed) m/s</div>
                             <div class="pressureForecast">Pressure: @ForecastHourly.main.pressure hPa</div>
                         </div>
                     </div>
@@ -189,26 +193,23 @@
             </div>
         </p>
     </div>
-    <div id="uvforecast" class="tabcontent">
+    <p id="uvforecast" class="tabcontent">
         <p>
-            <div id="UVDescription"> UV Прогноза за @forecast.city.name </div>
-            <div style="width: 100%;">        
+            <div id="UVDescription">
+                UV Прогноза за @forecast.city.name
                 @{for (int l = 0; l < Model.UVIndexForecast.Count; l++)
                     {
                         ResponseUVIndex UVforecast = Model.UVIndexForecast[l];
-                        <div class="UVIndexForecast">
-                            <div id="cityUV"> City: Sofia </div>
-                            <div id="dateUV">
-                                Date:
-                                @{ String timedateUV;
-                                    System.DateTime dtDateTimesunset1 = new DateTime(1970, 1, 1);
-                                    dtDateTimesunset1 = dtDateTimesunset1.AddSeconds(UVforecast.date).ToLocalTime();
-                                    timedateUV = dtDateTimesunset1.ToString();
-                                }
-                                @timedateUV
-                            </div>
-                            <div id="UVIndex">UV: @UVforecast.value </div>
-                        </div>
+                        <a href="#" id="dateUV">
+                            Date:
+                            @{  String timedateUV;
+                                System.DateTime DateUV = new DateTime(1970, 1, 1);
+                                DateUV = DateUV.AddSeconds(UVforecast.date).ToLocalTime();
+                                timedateUV = DateUV.ToShortDateString();
+                            }
+                            @timedateUV
+                        </a>
+                        <a href="#" id="UVIndex">UV: @Math.Round(UVforecast.value) </a>
                     }
                 }
             </div>
@@ -230,7 +231,7 @@
                 image = "~/images/Symbols/02d.png";
                 break;
             case 802:
-                image = "~/images/Symbols/03d.png";
+                image = "~/images/Symbols/02d.png";
                 break;
             case 803:
             case 804:
