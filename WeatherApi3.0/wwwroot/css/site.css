@@ -21,10 +21,16 @@ body {
     border: solid;
     border-color: black;
 }
-#sattellite-image{
-    padding:0px 30px 20px;
-    line-height:25px;
-    width:100%;
+#sattellite-image {
+    margin-top:20px;
+    margin-left: 50px;
+    padding: 20px 30px 20px;
+    line-height: 25px;
+    width: 100%;
+}
+#sattellite {
+    margin-top: 100px;
+    margin-left: 290px;
 }
 body {
     margin: 0;
@@ -163,14 +169,6 @@ div.UVDescription a {
 div.UVDescription a:hover {
     background-color: #777;
 }
-/*.UVIndexForecast {
-    float: left;
-    padding: 4px;
-    margin-top: 50px;
-    margin: 2px;
-    border: solid;
-    border-color: black;
-}*/
 
 #UVDescription {
     font-weight: bold;
@@ -238,8 +236,27 @@ div.UVDescription a:hover {
      outline: none;
      cursor: pointer;
      padding: 14px 16px;
-     transition: 0.3s;
+     transition: 0.5s;
      font-size: 17px;
+}
+
+#UVDescription {
+    background-color: aliceblue;
+    position: relative;
+    left: -48px;
+    top: -50px;
+    padding-bottom: 30px;
+    width: calc(100% - 200px);
+    height: auto;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+#UVDescription > div {
+    background-color: aliceblue;
+    display: inline-block;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 /* Change background color of buttons on hover */

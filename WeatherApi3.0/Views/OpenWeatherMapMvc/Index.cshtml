@@ -155,8 +155,7 @@
                         <div class="DateAndTimeForecast">
                             @{  var culture = new System.Globalization.CultureInfo("bg-BG");
                                 string format = "ddd d/M HH:mm";
-                                var day = DateTime.Parse(ForecastHourly.dt_txt).ToString(format);
-                                
+                                var day = DateTime.Parse(ForecastHourly.dt_txt).ToString(format);                                
                              }@day
 
                         </div>
@@ -193,14 +192,14 @@
             </div>
         </p>
     </div>
-    <p id="uvforecast" class="tabcontent">
+    <div id="uvforecast" class="tabcontent">
         <p>
             <div id="UVDescription">
                 UV Прогноза за @forecast.city.name
                 @{for (int l = 0; l < Model.UVIndexForecast.Count; l++)
                     {
                         ResponseUVIndex UVforecast = Model.UVIndexForecast[l];
-                        <a href="#" id="dateUV">
+                        <div id="dateUV">
                             Date:
                             @{  String timedateUV;
                                 System.DateTime DateUV = new DateTime(1970, 1, 1);
@@ -208,14 +207,14 @@
                                 timedateUV = DateUV.ToShortDateString();
                             }
                             @timedateUV
-                        </a>
-                        <a href="#" id="UVIndex">UV: @Math.Round(UVforecast.value) </a>
+                        </div>
+                        <div id="UVIndex">UV: @Math.Round(UVforecast.value) </div>
                     }
                 }
             </div>
         </p>
     </div>
-    <a id="sattellite-image" href='http://en.sat24.com/en' target='sat24'><img class="img-responsive" src='https://api.sat24.com/animated/SE/visual/1/GTB%20Standard%20Time/7072957' width=400 height=300 /></a>
+    <a id="sattellite-image" href='http://en.sat24.com/en' target='sat24'><img class="img-responsive" id="sattellite" src='https://api.sat24.com/animated/SE/visual/1/GTB%20Standard%20Time/7072957' width=400 height=300 /></a>
 </body>
 </html>
 @functions {
