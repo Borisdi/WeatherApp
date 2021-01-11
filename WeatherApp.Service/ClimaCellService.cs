@@ -13,5 +13,20 @@ namespace WeatherApp.Service
         {
             throw new NotImplementedException();
         }
+
+        public Task<CurrentConditions> GetCurrentConditions(string location, string language)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Forecast> GetForecast(string locationId, string language)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<UvIndexForecast>> GetUvIndexForecast(double latitude, double longitude, string language)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

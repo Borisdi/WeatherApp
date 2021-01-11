@@ -7,13 +7,26 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using WeatherApp.Service.Models.OpenWeatherMap;
+using WeatherApi3.Models;
 using WeatherApp.Service.Interfaces;
+using WeatherApp.Service.Models.Output;
 
 namespace WeatherApi3._0.Controllers
 {
     public class OpenWeatherMapMvcController : Controller
     {
+        const string bgLanguage = "bg";
+        const string LocationSofia = "Sofia";
+        const string LocationPlovdiv = "Plovdiv";
+        const string LocationBurgas = "Burgas";
+
+        const int LocationSofiaID = 727011;
+        const int LocationPlovdivID = 728193;
+        const int LocationBurgasID = 732771;
+        
+        const double SofiaCoordLat = 42.7;
+        const double SofiaCoordLon = 23.32;
+
         private readonly IWeatherService _openWeatherMap;
 
         public OpenWeatherMapMvcController(IWeatherService openWeatherMapService)
@@ -21,55 +34,39 @@ namespace WeatherApi3._0.Controllers
             _openWeatherMap = openWeatherMapService;
         }
 
-        private string APIkey = "6d85a7afd458036f67cfcce6e5c8815f";
-    
         [HttpGet]
-        public IActionResult Index()
-        {          
-            string LocationSofia = "Sofia";
-            string LocationPlovdiv = "Plovdiv";
-            string LocationBurgas = "Burgas";
-            int LocationSofiaID = 727011;
-            int LocationPlovdivID = 728193;
-            int LocationBurgasID = 732771;
+        public async Task<IActionResult> Index()
+        {
+            //TODO: latitude needed?
             double latitude = 42.7;
             double longitude = 23.32;
-            HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/group?id=" + LocationSofiaID + "&APPID=" + APIkey + "&units=metric" + "&lang=bg") as HttpWebRequest;
-            //HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/weather?q=" + LocationSofia + "&APPID=" + APIkey + "&units=metric" + "&lang=bg") as HttpWebRequest;
-            //HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/weather" + "?lat=" + latitude + "&lon=" + longitude + "&APPID=" + APIkey + "&units=metric" + "&lang=bg") as HttpWebRequest;
-            string apiResponse = "";
-            using (HttpWebResponse response = URL.GetResponse() as HttpWebResponse)
+            //TODO: group path - what is in there, needed?
+            //HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/group?id=" + LocationSofiaID + "&APPID=" + APIkey + "&units=metric" + "&lang=bg") as HttpWebRequest;
+            var currentConditions = await _openWeatherMap.GetCurrentConditions(LocationSofia, bgLanguage);
+            var forecast = await _openWeatherMap.GetForecast(LocationSofia, bgLanguage);
+            var uvForecast = await _openWeatherMap.GetUvIndexForecast(SofiaCoordLat, SofiaCoordLon, bgLanguage);
+            var result = new AllWeatherModel()
             {
-                StreamReader reader = new StreamReader(response.GetResponseStream());
-                apiResponse = reader.ReadToEnd();
-            }
-
-            WeatherList rootObject = JsonConvert.DeserializeObject<WeatherList>(apiResponse);
-            OpenWeatherMap Model = new OpenWeatherMap()
-            {
-                CurrentWeatherConditions = rootObject.list.FirstOrDefault(),
-                Forecast = GetForecast(),
-                UVIndexForecast = GetUVIndexForecast()
+                CurrentWeatherConditions = currentConditions,
+                Forecast = forecast,
+                UVIndexForecast = uvForecast
             };
-            return View(Model);
+
+            return View(result);
         }
         
         [HttpGet]
         public async Task<IActionResult> GetCurrentConditionsAndForecast(double latitude, double longitude)
         {
-            var httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri("http://api.openweathermap.org");
-            var uri = "http://api.openweathermap.org/data/2.5/weather" + "?lat=" + latitude + "&lon=" + longitude + "&APPID=" + APIkey + "&units=metric" + "&lang=bg";
-            var response = await httpClient.GetAsync(uri);
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var content = await response.Content.ReadAsStringAsync();
-                var currentConditions = JsonConvert.DeserializeObject<CurrentConditions>(content);
+                var currentConditions = await _openWeatherMap.GetCurrentConditions(latitude, longitude, "bg");
                 return View("_CurrentLocationConditions", currentConditions);
             }
-            else
+            catch (Exception e)
             {
-                return StatusCode((int)response.StatusCode);
+                //TODO: YY
+                throw;
             }
         }
 
@@ -78,44 +75,7 @@ namespace WeatherApi3._0.Controllers
         {  
             return View("_Analysis");
         }
-        /* http://api.openweathermap.org/data/2.5/forecast?q=Sofia&APPID=6d85a7afd458036f67cfcce6e5c8815f&units=metric */
-
-        private Forecast GetForecast()
-        {
-            string LocationSofia = "Sofia";
-            string LocationPlovdiv = "Plovdiv";
-            string LocationBurgas = "Burgas";
-            int LocationSofiaID = 727011;
-            int LocationPlovdivID = 728193;
-            int LocationBurgasID = 732771;
-            HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/forecast?q=" + LocationSofia + "&APPID=" + APIkey + "&units=metric" + "&lang=bg") as HttpWebRequest;
-            string apiResponseforecast = "";
-            using (HttpWebResponse response = URL.GetResponse() as HttpWebResponse)
-            {
-                StreamReader reader = new StreamReader(response.GetResponseStream());
-                apiResponseforecast = reader.ReadToEnd();
-            }
-
-            var rootObject = JsonConvert.DeserializeObject<Forecast>(apiResponseforecast);
-            return rootObject;
-        }
-
-        private List<ResponseUVIndex> GetUVIndexForecast()
-        {
-            String SofiaCoordLat = "42.69";
-            String SofiaCoordLon = "23.32";
-            HttpWebRequest URL = WebRequest.Create("http://api.openweathermap.org/data/2.5/uvi/forecast?" + "appid=" + APIkey + "&lat=" + SofiaCoordLat + "&lon=" + SofiaCoordLon + "&lang=bg") as HttpWebRequest;
-            string apiResponseUVIndexForecast = "";
-            using (HttpWebResponse response = URL.GetResponse() as HttpWebResponse)
-            {
-                StreamReader reader = new StreamReader(response.GetResponseStream());
-                apiResponseUVIndexForecast = reader.ReadToEnd();
-            }
-
-            List<ResponseUVIndex> rootObject = JsonConvert.DeserializeObject<List<ResponseUVIndex>>(apiResponseUVIndexForecast);
-            return rootObject;
-        }
-
+        
         [HttpGet]
         public string Error()
         {

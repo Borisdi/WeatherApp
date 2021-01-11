@@ -1,5 +1,5 @@
 ﻿@using System.Globalization;
-@model WeatherApp.Service.Models.OpenWeatherMap.CurrentConditions;
+@model WeatherApp.Service.Models.Output.CurrentConditions;
 
 <link rel="stylesheet" type="text/css" href="~/css/site.css?version=3">
 
@@ -11,35 +11,35 @@
         <div class="date">@DateTime.Now.Date.ToString("dd MMMM", new CultureInfo("bg-BG"))</div>
 
         <div class="name" id="size-cell">
-            @response.name
+            @response.Name
         </div>
         <div class="weatherdescriptioncurrent">
-            <img class="img-responsive" src=@Url.Content(GetImage(response.weather[0].id)) />
+            <img class="img-responsive" src=@Url.Content(GetImage(response.Id)) />
         </div>
-        <div class="weatherdescriptioncurrenttxt">@response.weather[0].description</div>
+        <div class="weatherdescriptioncurrenttxt">@response.Description</div>
         <div class="temperature">
-            <i class="wi wi-thermometer"></i> @Math.Round(response.main.temp)  °C
+            <i class="wi wi-thermometer"></i> @Math.Round(response.Temp)  °C
         </div>
         <div id="wind">
-            <i class="wi wi-strong-wind"></i> @response.wind.speed m/s
+            <i class="wi wi-strong-wind"></i> @response.WindSpeed m/s
             @{
-                var (directiondescription, windCssClass) = GetWindDirection(response.wind.deg);
+                var (directiondescription, windCssClass) = GetWindDirection(response.WindDegree);
             }
             @directiondescription
             <i class="@windCssClass"></i>
         </div>
         <div id="humidity">
-            <i class="wi wi-humidity"></i> @response.main.humidity %
+            <i class="wi wi-humidity"></i> @response.Humidity %
         </div>
         <div id="pressure">
-            <i class="wi wi-barometer"></i> @Math.Round(response.main.pressure) hPa
+            <i class="wi wi-barometer"></i> @Math.Round(response.Pressure) hPa
         </div>
         <div id="sunrise">
             <i class="wi wi-sunrise"></i> @{
                 // Converting unix date and time to human date and time and show only the time of sunrise
                 String timesunrise;
                 System.DateTime dtDateTimesunrise = new DateTime(1970, 1, 1);
-                dtDateTimesunrise = dtDateTimesunrise.AddSeconds(response.sys.sunrise).ToLocalTime();
+                dtDateTimesunrise = dtDateTimesunrise.AddSeconds(response.Sunrise).ToLocalTime();
                 timesunrise = dtDateTimesunrise.ToShortTimeString();
             }
             @timesunrise
@@ -49,7 +49,7 @@
                 // Converting unix date and time to human date and time and show only the time of sunset
                 String timesunset;
                 System.DateTime dtDateTimesunset = new DateTime(1970, 1, 1);
-                dtDateTimesunset = dtDateTimesunset.AddSeconds(response.sys.sunset).ToLocalTime();
+                dtDateTimesunset = dtDateTimesunset.AddSeconds(response.Sunset).ToLocalTime();
                 timesunset = dtDateTimesunset.ToShortTimeString();
             }
             @timesunset
